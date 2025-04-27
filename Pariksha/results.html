@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results - PARIKSHA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/results.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="test-utils.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>PARIKSHA</h1>            
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="Pariksha Home Page.html" class="active">Home</a></li>
+                <li class="dropdown">
+                    <a>Tests <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="give-test.html">Give Test</a></li>
+                        <li><a href="create-test.html">Create Test</a></li>
+                    
+                    </ul>
+                </li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+
+                <div class="profile-menu">
+                    <div class="profile-group">
+                        <button id="profile-btn" aria-label="Profile menu">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <i class="fas fa-chevron-down down-arrow"></i>
+                    </div>                    
+                    <div class="profile-dropdown">
+                        <ul>
+                            <!-- This will be dynamically populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </ul>            
+        </nav>        
+    </header>
+
+    <main class="Container">
+        <!-- Results Navigation -->
+        <nav class="results-nav">
+            <ul>
+                <li><a href="#status" class="active"><i class="fas fa-chart-pie"></i> Status</a></li>
+                <li><a href="#leaderboard"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+                <li><a href="#answers"><i class="fas fa-check-circle"></i> Answers</a></li>
+            </ul>
+        </nav>
+
+        <!-- Status Section -->
+        <section id="status" class="status-section">
+            <div class="status-card">
+                <div class="status-header">
+                    <h2 class="status-title">Basic Mathematics Test</h2>
+                    <div class="status-meta">
+                        <span><i class="fas fa-clock"></i> 28:45</span>
+                        <span><i class="fas fa-calendar"></i> Apr 15, 2023</span>
+                    </div>
+                </div>
+                
+                <div class="score-overview">
+                    <div class="score-percentage">85%</div>
+                    <p class="score-label">You scored 17 out of 20 questions correctly</p>
+                </div>
+                
+                <div class="status-details">
+                    <div class="detail-item">
+                        <div class="detail-value">17</div>
+                        <div class="detail-label">Correct Answers</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-value">3</div>
+                        <div class="detail-label">Incorrect Answers</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-value">28:45</div>
+                        <div class="detail-label">Time Taken</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-value">A+</div>
+                        <div class="detail-label">Grade</div>
+                    </div>
+                </div>
+                <button class="view-rank">View ranks</button>
+            </div>
+            
+            <div class="status-card percentile-card">
+                <div class="chart-container">
+                    <div class="percentile-chart">
+                        <!-- Chart will be added via JavaScript -->
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color correct"></span>
+                            <span class="legend-label">Correct (17)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color incorrect"></span>
+                            <span class="legend-label">Incorrect (3)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color unanswered"></span>
+                            <span class="legend-label">Unanswered (22)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-summary">
+                    <h3>Question Analysis</h3>
+                    <p>Total Questions: 42</p>
+                    <p>Completion Rate: 47.6%</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section id="leaderboard" class="leaderboard-section" style="display: none;">
+            <div class="leaderboard-header">
+                <h2 class="leaderboard-title">Top Performers</h2>
+                <div class="leaderboard-filter">
+                    <select name="time-filter">
+                        <option value="all-time">All Time</option>
+                        <option value="this-month">This Month</option>
+                        <option value="this-week">This Week</option>
+                        <option value="today">Today</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank-cell">#1</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">JD</div>
+                                <span>John Doe</span>
+                            </div>
+                        </td>
+                        <td class="score-cell">95%</td>
+                        <td class="time-cell">25:30</td>
+                        <td>Apr 15, 2023</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#2</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">AS</div>
+                                <span>Alice Smith</span>
+                            </div>
+                        </td>
+                        <td class="score-cell">90%</td>
+                        <td class="time-cell">27:15</td>
+                        <td>Apr 14, 2023</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#3</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">RJ</div>
+                                <span>Robert Johnson</span>
+                            </div>
+                        </td>
+                        <td class="score-cell">88%</td>
+                        <td class="time-cell">26:45</td>
+                        <td>Apr 15, 2023</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Answers Section -->
+        <section id="answers" class="answers-section" style="display: none;">
+            <div class="answers-header">
+                <h2 class="answers-title">Question Analysis</h2>
+                <div class="answers-filter">
+                    <select name="status-filter">
+                        <option value="all">All Questions</option>
+                        <option value="correct">Correct Only</option>
+                        <option value="incorrect">Incorrect Only</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="question-list">
+                <!-- Question 1 -->
+                <div class="question-item">
+                    <div class="question-header">
+                        <span class="question-number">Question 1</span>
+                        <div class="question-status status-correct">
+                            <i class="fas fa-check-circle status-icon"></i>
+                            Correct
+                        </div>
+                    </div>
+                    
+                    <div class="question-text">
+                        If a triangle has sides of lengths 3, 4, and 5, what is its area?
+                    </div>
+                    
+                    <div class="options-list">
+                        <div class="option-item correct">
+                            <div class="option-marker">A</div>
+                            <span>6 square units</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-marker">B</div>
+                            <span>8 square units</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-marker">C</div>
+                            <span>10 square units</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-marker">D</div>
+                            <span>12 square units</span>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation">
+                        <div class="explanation-title">Explanation</div>
+                        <p>Using Heron's formula, where s = (a + b + c)/2 is the semi-perimeter:</p>
+                        <p>s = (3 + 4 + 5)/2 = 6</p>
+                        <p>Area = √(s(s-a)(s-b)(s-c)) = √(6(6-3)(6-4)(6-5)) = √(6·3·2·1) = √36 = 6</p>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-item">
+                    <div class="question-header">
+                        <span class="question-number">Question 2</span>
+                        <div class="question-status status-incorrect">
+                            <i class="fas fa-times-circle status-icon"></i>
+                            Incorrect
+                        </div>
+                    </div>
+                    
+                    <div class="question-text">
+                        What is the value of π (pi) to two decimal places?
+                    </div>
+                    
+                    <div class="options-list">
+                        <div class="option-item correct">
+                            <div class="option-marker">A</div>
+                            <span>3.14</span>
+                        </div>
+                        <div class="option-item selected">
+                            <div class="option-marker">B</div>
+                            <span>3.16</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-marker">C</div>
+                            <span>3.12</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-marker">D</div>
+                            <span>3.18</span>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation">
+                        <div class="explanation-title">Explanation</div>
+                        <p>The value of π (pi) to two decimal places is 3.14. This is one of the most fundamental mathematical constants, representing the ratio of a circle's circumference to its diameter.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>    
+
+    <script src="js/main.js"></script>
+    <script src="js/results.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize script variables
+            let loadingState = false;
+            
+            // Set up a global error handler
+            window.onerror = function(message, source, lineno, colno, error) {
+                console.error('Global error handler caught:', message, error);
+                hideLoadingState();
+                showErrorState('An unexpected error occurred: ' + message);
+                return true; // Prevents the browser from showing its own error
+            };
+            
+            // Main initialization function
+            async function initialize() {
+                try {
+                    console.log('Initializing results page');
+                    
+                    // Initialize sections and navigation
+                    initSections();
+                    
+                    // Get the result ID from URL if available - check both 'id' and 'resultId' parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const resultIdFromUrl = urlParams.get('id') || urlParams.get('resultId');
+                    
+                    // Also check for sampleId for sample tests
+                    const sampleIdFromUrl = urlParams.get('sampleId');
+                    if (sampleIdFromUrl) {
+                        console.log('Found sampleId in URL, this indicates a sample test:', sampleIdFromUrl);
+                        
+                        // If this is a direct link from give-test.html, save the sampleId for leaderboard
+                        sessionStorage.setItem('lastSampleTestId', sampleIdFromUrl);
+                    }
+                    
+                    // Variables to store result data
+                    let testResults = null;
+                    let dbTestResult = null;
+                    let finalResults = null;
+                    
+                    // Show loading state
+                    showLoadingState();
+                    loadingState = true;
+                    
+                    // First check if we have an ID in the URL
+                    if (resultIdFromUrl) {
+                        console.log('Fetching result by ID from URL:', resultIdFromUrl);
+                        try {
+                            const result = await getTestResultDetails(resultIdFromUrl);
+                            if (result.success) {
+                                dbTestResult = result.data;
+                                console.log('Loaded test result from database via URL param:', dbTestResult);
+                            } else {
+                                console.error('Failed to fetch result with ID from URL:', resultIdFromUrl, result.error);
+                            }
+                        } catch (error) {
+                            console.error('Exception fetching result by ID:', error);
+                        }
+                    } 
+                    
+                    // If no database result yet, try from session storage
+                    if (!dbTestResult) {
+                        // Get test results from sessionStorage
+                        try {
+                            const testResultsStr = sessionStorage.getItem('testResults');
+                            if (testResultsStr) {
+                                testResults = JSON.parse(testResultsStr);
+                                console.log('Retrieved test results from session storage:', testResults);
+                                
+                                // For sample tests, try to extract test info from the URL
+                                if (sampleIdFromUrl && !testResults.testId) {
+                                    console.log('Adding sample test ID to results:', sampleIdFromUrl);
+                                    testResults.testId = sampleIdFromUrl;
+                                    
+                                    // Try to get the sample test title from currentTest
+                                    try {
+                                        const currentTestStr = sessionStorage.getItem('currentTest');
+                                        if (currentTestStr) {
+                                            const currentTest = JSON.parse(currentTestStr);
+                                            testResults.testTitle = currentTest.title || 'Sample Test';
+                                        }
+                                    } catch (e) {
+                                        console.warn('Error getting sample test title:', e);
+                                    }
+                                }
+                            } else {
+                                console.warn('No test results found in session storage');
+                            }
+                        } catch (error) {
+                            console.error('Error parsing test results from session storage:', error);
+                        }
+                        
+                        // Check if we have a saved result ID in session
+                        const testResultId = sessionStorage.getItem('testResultId');
+                        
+                        // If we have a result ID and user is logged in, try to load from database
+                        const currentUser = getCurrentUser();
+                        if (testResultId && currentUser && !dbTestResult) {
+                            try {
+                                console.log('Attempting to load result from database using session ID:', testResultId);
+                                const result = await getTestResultDetails(testResultId);
+                                if (result.success) {
+                                    dbTestResult = result.data;
+                                    console.log('Loaded test result from database via session ID:', dbTestResult);
+                                } else {
+                                    console.error('Failed to load result with session ID:', testResultId, result.error);
+                                }
+                            } catch (error) {
+                                console.error('Error loading test result from database:', error);
+                            }
+                        }
+                    }
+                    
+                    // If we still don't have a result, show error and redirect
+                    if (!dbTestResult && !testResults) {
+                        console.error('No test results found in database or session storage');
+                        hideLoadingState();
+                        loadingState = false;
+                        showErrorState('No test results found! You will be redirected to the test page.');
+                        setTimeout(() => {
+                            window.location.href = 'give-test.html';
+                        }, 3000);
+                return;
+            }
+
+                    // Inside initialize function, right before finalResults is set
+                    console.log('==== Test Result Data Debug ====');
+                    console.log('DB Test Result:', dbTestResult);
+                    console.log('Session Test Results:', testResults);
+                    
+                    // Right after setting finalResults
+                    finalResults = prepareResultData(dbTestResult, testResults);
+                    console.log('Final Results after preparation:', finalResults);
+                    console.log('Test ID extracted:', finalResults?.testId);
+                    
+                    // Remove loading state
+                    hideLoadingState();
+                    loadingState = false;
+                    
+                    // Update the UI with the results
+                    updateUIWithResults(finalResults);
+                } catch (error) {
+                    console.error('Critical error in results page initialization:', error);
+                    // Ensure loading state is removed
+                    if (loadingState) {
+                        hideLoadingState();
+                        loadingState = false;
+                    }
+                    showErrorState('Failed to load test results: ' + (error.message || 'Unknown error'));
+                }
+            }
+            
+            // Start initialization
+            initialize();
+        });
+        
+        // Initialize section display and navigation
+        function initSections() {
+            const navLinks = document.querySelectorAll('.results-nav a');
+            const sections = document.querySelectorAll('main > section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show target section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).style.display = targetId === 'status' ? 'grid' : 'block';
+                });
+            });
+            
+            // Make sure only the status section is visible initially
+            sections.forEach(section => {
+                section.style.display = section.id === 'status' ? 'grid' : 'none';
+            });
+            
+            // Add click handler for view-rank button to navigate to leaderboard tab
+            const viewRankButton = document.querySelector('.view-rank');
+            if (viewRankButton) {
+                viewRankButton.addEventListener('click', function() {
+                    // Find the leaderboard link and trigger its click event
+                    const leaderboardLink = document.querySelector('.results-nav a[href="#leaderboard"]');
+                    if (leaderboardLink) {
+                        leaderboardLink.click();
+                    }
+                });
+            }
+        }
+        
+        // Process database result into consistent format for UI
+        function prepareResultData(dbResult, sessionResult) {
+            if (dbResult) {
+                try {
+                    console.log('Processing database result:', dbResult);
+                    
+                    // Debug log keys to understand structure
+                    console.log('Available top-level keys in result:', Object.keys(dbResult));
+                    
+                    // Check for test_id in various places including nested objects
+                    let extractedTestId = null;
+                    if (dbResult.test_id) {
+                        extractedTestId = dbResult.test_id;
+                        console.log('Found test_id at top level:', extractedTestId);
+                    } else if (dbResult.tests && dbResult.tests.id) {
+                        extractedTestId = dbResult.tests.id;
+                        console.log('Found test id in tests object:', extractedTestId);
+                    } else if (dbResult.test && dbResult.test.id) {
+                        extractedTestId = dbResult.test.id;
+                        console.log('Found test id in test object:', extractedTestId);
+                    }
+                    
+                    // Check if essential test data exists
+                    if (!dbResult.tests) {
+                        console.warn('No test data found in database result, it may be missing a join with tests table');
+                    }
+                    
+                    // Process database result format - handle missing fields gracefully
+                    const result = {
+                        testId: extractedTestId || dbResult.tests?.id || dbResult.test_id || dbResult.testId || null,
+                        testTitle: dbResult.tests?.title || dbResult.test?.title || dbResult.title || 'Test Results',
+                        score: dbResult.score || 0,
+                        totalQuestions: dbResult.total_questions || 0,
+                        correct: dbResult.correct_answers || 0,
+                        incorrect: dbResult.incorrect_answers || dbResult.total_questions - dbResult.correct_answers || 0,
+                        timeTaken: dbResult.time_taken || 0,
+                        attempted: dbResult.attempted_questions || dbResult.total_questions || 0,
+                        startTime: dbResult.start_time || new Date(Date.now() - (dbResult.time_taken || 0) * 1000),
+                        endTime: dbResult.end_time || dbResult.created_at || new Date(),
+                        isPassed: dbResult.is_passed || (dbResult.score >= 60) || false,
+                        // Handle different ways questions might be stored
+                        questions: dbResult.tests?.questions || dbResult.test?.questions || dbResult.questions || [],
+                        // Handle different ways answers might be stored
+                        answers: []
+                    };
+                    
+                    console.log('Extracted testId:', result.testId);
+                    
+                    // Handle field names for correctness
+                    if (result.questions && result.questions.length > 0) {
+                        console.log('Processing questions data, count:', result.questions.length);
+                        console.log('First question format:', result.questions[0]);
+                        
+                        result.questions = result.questions.map((q, index) => {
+                            // Create a normalized question object
+                            const normalizedQuestion = { ...q };
+                            
+                            // Handle different column names for correct answer
+                            if (q.correct_answer !== undefined && q.correct_option === undefined) {
+                                normalizedQuestion.correct_option = q.correct_answer;
+                            } else if (q.correct_option !== undefined && q.correct_answer === undefined) {
+                                normalizedQuestion.correct_answer = q.correct_option;
+                            } else if (q.correct !== undefined && q.correct_answer === undefined) {
+                                normalizedQuestion.correct_answer = q.correct;
+                            }
+                            
+                            // Map database field names to the expected format for updateAnswersSection
+                            if (q.question_text && !q.question) {
+                                normalizedQuestion.question = q.question_text;
+                            } else if (q.question && !q.question_text) {
+                                normalizedQuestion.question_text = q.question;
+                            }
+                            
+                            // Handle different option naming patterns
+                            if (q.optionA && !q.option_a) normalizedQuestion.option_a = q.optionA;
+                            if (q.optionB && !q.option_b) normalizedQuestion.option_b = q.optionB;
+                            if (q.optionC && !q.option_c) normalizedQuestion.option_c = q.optionC;
+                            if (q.optionD && !q.option_d) normalizedQuestion.option_d = q.optionD;
+                            
+                            if (q.option_a && !q.optionA) normalizedQuestion.optionA = q.option_a;
+                            if (q.option_b && !q.optionB) normalizedQuestion.optionB = q.option_b;
+                            if (q.option_c && !q.optionC) normalizedQuestion.optionC = q.option_c;
+                            if (q.option_d && !q.optionD) normalizedQuestion.optionD = q.option_d;
+                            
+                            console.log(`Normalized question ${index}:`, 
+                                normalizedQuestion.question_text || normalizedQuestion.question || 'No question text');
+                            
+                            return normalizedQuestion;
+                        });
+                    }
+                    
+                    // Try to parse answers from various possible sources
+                    try {
+                        if (dbResult.answers_json) {
+                            console.log('Found answers_json, attempting to parse:', dbResult.answers_json);
+                            if (typeof dbResult.answers_json === 'string') {
+                                result.answers = JSON.parse(dbResult.answers_json);
+                            } else if (typeof dbResult.answers_json === 'object') {
+                                result.answers = dbResult.answers_json;
+                            }
+                        } else if (dbResult.answers) {
+                            console.log('Found answers property:', dbResult.answers);
+                            result.answers = dbResult.answers;
+                        } else {
+                            console.warn('No answers found in database result');
+                        }
+                    } catch (e) {
+                        console.error('Error parsing answers data:', e);
+                    }
+                    
+                    console.log('Processed result data:', result);
+                    return result;
+                } catch (error) {
+                    console.error('Error processing database result:', error);
+                    // Fallback to session result if database processing fails
+                    console.log('Falling back to session data');
+                    return sessionResult;
+                }
+            } else if (sessionResult) {
+                console.log('Using session result:', sessionResult);
+                console.log('Session Storage Contents:', {
+                    testResults: sessionStorage.getItem('testResults'),
+                    currentTest: sessionStorage.getItem('currentTest'),
+                    testResultId: sessionStorage.getItem('testResultId')
+                });
+                
+                // For session results, we need to extract the testId from current test
+                let testId = null;
+                try {
+                    // Try to get the current test from session storage which should have the test ID
+                    const currentTestStr = sessionStorage.getItem('currentTest');
+                    if (currentTestStr) {
+                        const currentTest = JSON.parse(currentTestStr);
+                        console.log('Found currentTest in session storage:', currentTest);
+                        
+                        // Extract testId from various possible locations
+                        if (currentTest.id) {
+                            testId = currentTest.id;
+                        } else if (currentTest.testId) {
+                            testId = currentTest.testId;
+                        } else if (typeof currentTest === 'string') {
+                            // In case the currentTest is just the ID string
+                            testId = currentTest;
+                        }
+                        
+                        console.log('Extracted testId from currentTest:', testId);
+                    } else {
+                        console.warn('No currentTest found in session storage');
+                    }
+                    
+                    // Also try to get from resultId in session storage
+                    if (!testId) {
+                        const resultIdStr = sessionStorage.getItem('testResultId');
+                        if (resultIdStr) {
+                            console.log('Found testResultId in session storage:', resultIdStr);
+                            // This might be the result ID not the test ID, but better than nothing
+                            testId = resultIdStr;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error extracting testId from session storage:', error);
+                }
+                
+                // Create a combined result with the testId
+                return {
+                    ...sessionResult,
+                    testId: testId
+                };
+            } else {
+                console.error('No result data available!');
+                return {
+                    testTitle: 'Test Results',
+                    score: 0,
+                    totalQuestions: 0,
+                    correct: 0,
+                    incorrect: 0,
+                    timeTaken: 0,
+                    attempted: 0,
+                    questions: [],
+                    answers: []
+                };
+            }
+        }
+        
+        // Update the UI with the result data
+        function updateUIWithResults(results) {
+            // Update test title
+            const titleElements = document.querySelectorAll('.status-title');
+            titleElements.forEach(el => {
+                el.textContent = results.testTitle || 'Test Results';
+            });
+
+            // Update score percentage
+            const scorePercentageElements = document.querySelectorAll('.score-percentage');
+            scorePercentageElements.forEach(el => {
+                el.textContent = `${results.score}%`;
+            });
+
+            // Update score label
+            const scoreLabelElements = document.querySelectorAll('.score-label');
+            scoreLabelElements.forEach(el => {
+                el.textContent = `You scored ${results.correct} out of ${results.totalQuestions} questions correctly`;
+            });
+
+            // Update detail items
+            document.querySelector('.detail-item:nth-child(1) .detail-value').textContent = results.correct;
+            document.querySelector('.detail-item:nth-child(2) .detail-value').textContent = results.incorrect;
+            
+            // Format time taken
+            const totalSeconds = results.timeTaken;
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.querySelector('.detail-item:nth-child(3) .detail-value').textContent = timeFormatted;
+            
+            // Set grade based on score
+            let grade = 'F';
+            const score = results.score;
+            if (score >= 90) grade = 'A+';
+            else if (score >= 80) grade = 'A';
+            else if (score >= 70) grade = 'B';
+            else if (score >= 60) grade = 'C';
+            else if (score >= 50) grade = 'D';
+            
+            document.querySelector('.detail-item:nth-child(4) .detail-value').textContent = grade;
+            
+            // Time meta data
+            const timeElements = document.querySelectorAll('.status-meta span:first-child');
+            timeElements.forEach(el => {
+                el.innerHTML = `<i class="fas fa-clock"></i> ${timeFormatted}`;
+            });
+            
+            // Date meta data
+            const dateElements = document.querySelectorAll('.status-meta span:last-child');
+            const testDate = new Date(results.endTime || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            dateElements.forEach(el => {
+                el.innerHTML = `<i class="fas fa-calendar"></i> ${testDate}`;
+            });
+
+            // Update chart legend
+            document.querySelector('.legend-item:nth-child(1) .legend-label').textContent = `Correct (${results.correct})`;
+            document.querySelector('.legend-item:nth-child(2) .legend-label').textContent = `Incorrect (${results.incorrect})`;
+            const unanswered = results.totalQuestions - (results.correct + results.incorrect);
+            document.querySelector('.legend-item:nth-child(3) .legend-label').textContent = `Unanswered (${unanswered})`;
+            
+            // Chart summary
+            document.querySelector('.chart-summary p:nth-child(2)').textContent = `Total Questions: ${results.totalQuestions}`;
+            
+            const completionRate = Math.round((results.attempted / results.totalQuestions) * 100);
+            document.querySelector('.chart-summary p:nth-child(3)').textContent = `Completion Rate: ${completionRate}%`;
+            
+            // Update pie chart
+            updatePieChart(results.correct, results.incorrect, unanswered);
+            
+            // Update answers section if we have questions and answers
+            if (results.questions && results.questions.length > 0) {
+                updateAnswersSection(results.questions, results.answers);
+            }
+            
+            // Load leaderboard if user is logged in - explicitly pass testId
+            console.log('Loading leaderboard with testId:', results.testId);
+            loadLeaderboard(results.testId);
+        }
+        
+        // Update the answers section with questions and responses
+        function updateAnswersSection(questions, answers) {
+            const questionList = document.querySelector('.question-list');
+            if (!questionList) return;
+            
+            // Clear existing questions
+            questionList.innerHTML = '';
+            
+            // If we have no questions, show a message
+            if (!questions || questions.length === 0) {
+                const noQuestionsElement = document.createElement('div');
+                noQuestionsElement.className = 'no-questions-message';
+                noQuestionsElement.innerHTML = `
+                    <p>No question details are available for this test.</p>
+                    <p>This might be because the test data was not fully saved or loaded from the database.</p>
+                `;
+                questionList.appendChild(noQuestionsElement);
+                return;
+            }
+            
+            // Make sure we have an answers array (even if empty)
+            if (!answers || !Array.isArray(answers)) {
+                console.warn('Invalid answers array, using empty array instead');
+                answers = [];
+            }
+            
+            // Add each question
+            questions.forEach((question, index) => {
+                try {
+                    // More comprehensive validation of question data
+                    if (!question) {
+                        console.warn(`Skipping question at index ${index} due to missing data`);
+                        return;
+                    }
+                    
+                    // Try to handle different field naming patterns
+                    const questionText = question.question_text || question.question || null;
+                    if (!questionText) {
+                        console.warn(`Skipping question at index ${index} - no question text found`, question);
+                        return;
+                    }
+                    
+                    // Get options from various potential formats
+                    const options = [
+                        question.option_a || question.optionA || '',
+                        question.option_b || question.optionB || '',
+                        question.option_c || question.optionC || '',
+                        question.option_d || question.optionD || ''
+                    ];
+                    
+                    const userAnswer = answers[index] !== undefined ? answers[index] : null;
+                    
+                    // Check that correct_answer is valid - support multiple formats
+                    let correctOption = null;
+                    if (question.correct_answer && typeof question.correct_answer === 'string') {
+                        // Handle both numeric correct answers and letter answers (A, B, C, D)
+                        if (/^[A-D]$/.test(question.correct_answer)) {
+                            correctOption = question.correct_answer.charCodeAt(0) - 65; // Convert A, B, C, D to 0, 1, 2, 3
+                        } else if (/^[0-3]$/.test(question.correct_answer)) {
+                            correctOption = parseInt(question.correct_answer);
+                        }
+                    } else if (question.correct_option && typeof question.correct_option === 'string') {
+                        // Fallback for old data format
+                        if (/^[A-D]$/.test(question.correct_option)) {
+                            correctOption = question.correct_option.charCodeAt(0) - 65;
+                        } else if (/^[0-3]$/.test(question.correct_option)) {
+                            correctOption = parseInt(question.correct_option);
+                        }
+                    } else if (question.correct !== undefined) {
+                        // Another possible format
+                        if (typeof question.correct === 'string' && /^[A-D]$/.test(question.correct)) {
+                            correctOption = question.correct.charCodeAt(0) - 65;
+                        } else if (typeof question.correct === 'number' && question.correct >= 0 && question.correct <= 3) {
+                            correctOption = question.correct;
+                        }
+                    }
+                    
+                    if (correctOption === null) {
+                        console.warn(`Question at index ${index} has invalid or missing correct answer:`, 
+                            question.correct_answer || question.correct_option || question.correct);
+                        // Provide a default to avoid breaking the display
+                        correctOption = 0;
+                    }
+                    
+                    const isCorrect = correctOption !== null && userAnswer === correctOption;
+                    const isAttempted = userAnswer !== null;
+                    
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'question-item';
+                    
+                    // Determine question status
+                    let statusClass = 'status-unattempted';
+                    let statusIcon = 'question';
+                    let statusText = 'Not Attempted';
+                    
+                    if (isAttempted) {
+                        if (isCorrect) {
+                            statusClass = 'status-correct';
+                            statusIcon = 'check';
+                            statusText = 'Correct';
+                        } else {
+                            statusClass = 'status-incorrect';
+                            statusIcon = 'times';
+                            statusText = 'Incorrect';
+                        }
+                    }
+                    
+                    // Handle the case where we don't have valid options
+                    const hasValidOptions = options.some(option => option.trim() !== '');
+                    
+                    questionElement.innerHTML = `
+                        <div class="question-header">
+                            <span class="question-number">Question ${index + 1}</span>
+                            <div class="question-status ${statusClass}">
+                                <i class="fas fa-${statusIcon}-circle status-icon"></i>
+                                ${statusText}
+                            </div>
+                        </div>
+                        
+                        <div class="question-text">
+                            ${questionText}
+                        </div>
+                        
+                        <div class="options-list">
+                            ${hasValidOptions ? 
+                                options.map((option, i) => {
+                                    // Don't display empty options
+                                    if (!option.trim()) {
+                                        return '';
+                                    }
+                                    return `
+                                        <div class="option-item ${i === correctOption ? 'correct' : ''} ${userAnswer === i ? 'selected' : ''}">
+                                    <div class="option-marker">${String.fromCharCode(65 + i)}</div>
+                                    <span>${option}</span>
+                                </div>
+                                    `;
+                                }).join('') 
+                                : 
+                                `<div class="no-options-message">Answer options not available for this question.</div>`
+                            }
+                        </div>
+                        
+                        <div class="explanation">
+                            <div class="explanation-title">Explanation</div>
+                            <p>${question.explanation || (correctOption !== null ? 'The correct answer is ' + String.fromCharCode(65 + correctOption) + '.' : 'Explanation not available.')}</p>
+                        </div>
+                    `;
+                    
+                    questionList.appendChild(questionElement);
+                } catch (error) {
+                    console.error(`Error rendering question at index ${index}:`, error);
+                }
+            });
+            
+            // Add custom CSS for unattempted status
+            const style = document.createElement('style');
+            style.textContent = `
+                .status-unattempted {
+                    background-color: #ffa502;
+                    color: white;
+                }
+                .no-questions-message {
+                    text-align: center;
+                    padding: 2rem;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    margin: 1rem 0;
+                }
+                .no-questions-message p {
+                    margin: 0.5rem 0;
+                    color: #6c757d;
+                }
+                .no-options-message {
+                    padding: 1rem;
+                    background: #f8f9fa;
+                    border-radius: 6px;
+                    text-align: center;
+                    color: #6c757d;
+                    font-style: italic;
+                    margin: 0.5rem 0;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Update the pie chart with test data
+        function updatePieChart(correct, incorrect, unanswered) {
+            try {
+                const percentileChart = document.querySelector('.percentile-chart');
+                if (!percentileChart) {
+                    console.warn('Percentile chart element not found');
+                    return;
+                }
+                
+                // Ensure we have valid numbers
+                correct = parseInt(correct) || 0;
+                incorrect = parseInt(incorrect) || 0;
+                unanswered = parseInt(unanswered) || 0;
+                
+                // If we have no data, show a placeholder
+                const total = correct + incorrect + unanswered;
+                if (total === 0) {
+                    console.warn('No question data for pie chart, showing placeholder');
+                    percentileChart.innerHTML = `
+                        <div style="
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #f5f5f5;
+                            border-radius: 50%;
+                            color: #777;
+                            font-size: 14px;
+                            text-align: center;
+                            padding: 20px;
+                        ">
+                            <div>No question data available</div>
+                    </div>
+                `;
+                    return;
+                }
+                
+                // Calculate percentages
+                const correctPercent = (correct / total) * 100;
+                const incorrectPercent = (incorrect / total) * 100;
+                const unansweredPercent = (unanswered / total) * 100;
+                
+                // Create conic gradient
+                percentileChart.style.background = `conic-gradient(
+                    #2ed573 0% ${correctPercent}%,
+                    #ff4757 ${correctPercent}% ${correctPercent + incorrectPercent}%,
+                    #ffa502 ${correctPercent + incorrectPercent}% 100%
+                )`;
+                
+                // Add hover area for tooltip
+                percentileChart.innerHTML = '';
+                
+                // Create tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'chart-tooltip';
+                percentileChart.appendChild(tooltip);
+                
+                // Create hover areas
+                const sections = [
+                    { type: 'correct', count: correct, percent: correctPercent, color: '#2ed573' },
+                    { type: 'incorrect', count: incorrect, percent: incorrectPercent, color: '#ff4757' },
+                    { type: 'unanswered', count: unanswered, percent: unansweredPercent, color: '#ffa502' }
+                ];
+                
+                sections.forEach(section => {
+                    const hoverArea = document.createElement('div');
+                    hoverArea.className = `chart-hover-area ${section.type}`;
+                    percentileChart.appendChild(hoverArea);
+                    
+                    // Set hover events
+                    hoverArea.addEventListener('mousemove', (e) => {
+                        const rect = percentileChart.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        tooltip.innerHTML = `
+                            <strong>${section.type.charAt(0).toUpperCase() + section.type.slice(1)}</strong><br>
+                            Count: ${section.count}<br>
+                            Percentage: ${section.percent.toFixed(1)}%
+                        `;
+                        tooltip.style.opacity = '1';
+                        tooltip.style.left = `${x}px`;
+                        tooltip.style.top = `${y - 30}px`;
+                    });
+                    
+                    hoverArea.addEventListener('mouseleave', () => {
+                        tooltip.style.opacity = '0';
+                    });
+                });
+            } catch (error) {
+                console.error('Error updating pie chart:', error);
+            }
+        }
+        
+        // Load leaderboard data
+        async function loadLeaderboard(testId) {
+            try {
+                console.log('==== Leaderboard Debug ====');
+                console.log('Initial testId provided:', testId);
+                console.log('Session Storage state:', {
+                    testResults: sessionStorage.getItem('testResults') ? 'exists' : 'not found',
+                    currentTest: sessionStorage.getItem('currentTest') ? 'exists' : 'not found',
+                    testResultId: sessionStorage.getItem('testResultId') ? 'exists' : 'not found'
+                });
+                
+                // Try to dump currentTest if it exists
+                try {
+                    const currentTestStr = sessionStorage.getItem('currentTest');
+                    if (currentTestStr) {
+                        console.log('Current Test Contents:', JSON.parse(currentTestStr));
+                    }
+                } catch (e) {
+                    console.error('Error parsing currentTest:', e);
+                }
+                
+                // Try to directly use the sampleId in URL for immediate resolution
+                const urlParams = new URLSearchParams(window.location.search);
+                const directSampleId = urlParams.get('sampleId');
+                if (directSampleId && !testId) {
+                    console.log('Found sampleId directly in URL, using immediately:', directSampleId);
+                    testId = directSampleId;
+                }
+                
+                // Check for lastSampleTestId in session storage
+                if (!testId) {
+                    const lastSampleId = sessionStorage.getItem('lastSampleTestId');
+                    if (lastSampleId) {
+                        console.log('Found lastSampleTestId in session storage, using it:', lastSampleId);
+                        testId = lastSampleId;
+                    }
+                }
+                
+                // Get a reference to global finalResults if we need it
+                let globalResults = null;
+                try {
+                    // Try to access the global variable if it exists
+                    if (typeof finalResults !== 'undefined') {
+                        globalResults = finalResults;
+                        console.log('Found global finalResults:', globalResults);
+                    }
+                } catch (e) {
+                    // Ignore errors with global variable access
+                }
+                
+                if (!testId && globalResults && globalResults.testId) {
+                    console.log('No test ID provided directly, using testId from finalResults:', globalResults.testId);
+                    testId = globalResults.testId;
+                }
+                
+                // If still no testId, try to extract from current test in session storage
+                if (!testId) {
+                    try {
+                        const currentTestStr = sessionStorage.getItem('currentTest');
+                        if (currentTestStr) {
+                            const currentTest = JSON.parse(currentTestStr);
+                            console.log('Trying to extract testId from currentTest in session storage:', currentTest);
+                            
+                            if (currentTest.id) {
+                                testId = currentTest.id;
+                                console.log('Extracted testId from currentTest.id:', testId);
+                            } else if (currentTest.testId) {
+                                testId = currentTest.testId;
+                                console.log('Extracted testId from currentTest.testId:', testId);
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error trying to extract testId from session storage:', e);
+                    }
+                }
+                
+                // Try one more place - sampleId parameter in URL
+                if (!testId) {
+                    try {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const sampleId = urlParams.get('sampleId');
+                        if (sampleId) {
+                            console.log('Found sampleId in URL, using as testId:', sampleId);
+                            testId = sampleId;
+                        }
+                    } catch (e) {
+                        console.error('Error checking URL for sampleId:', e);
+                    }
+                }
+                
+                // Absolute last resort - if still no testId, use a default
+                if (!testId) {
+                    // If we've tried everything and still don't have an ID, create a fallback ID
+                    console.log('No testId found from any source, using default fallback ID');
+                    const fallbackId = 'math-basic-01'; // Default sample test
+                    testId = fallbackId;
+                    
+                    // Display a notice that we're using a sample leaderboard
+                    const leaderboardSection = document.getElementById('leaderboard');
+                    if (leaderboardSection) {
+                        const notice = document.createElement('div');
+                        notice.className = 'sample-notice';
+                        notice.innerHTML = `
+                            <div style="background-color: #fff3cd; color: #856404; padding: 8px 16px; 
+                                        margin-bottom: 15px; border-radius: 4px; font-size: 14px; text-align: center;">
+                                <i class="fas fa-info-circle"></i> 
+                                Showing sample leaderboard data since the test ID could not be determined.
+                            </div>
+                        `;
+                        leaderboardSection.insertBefore(notice, leaderboardSection.firstChild);
+                    }
+                }
+                
+                // Final check - this should now never be true due to our fallback
+                if (!testId) {
+                    console.warn('No test ID provided for leaderboard, skipping');
+                    
+                    // Add "No data" message to leaderboard
+                    const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+                    if (leaderboardTable) {
+                        leaderboardTable.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px;">
+                                    <i class="fas fa-info-circle" style="font-size: 24px; color: #aaa; margin-bottom: 10px;"></i>
+                                    <p style="margin: 5px 0; color: #777;">Leaderboard data is not available for this test.</p>
+                                    <p style="margin: 5px 0; color: #777; font-size: 0.9em;">This may be because the test ID is missing or you're viewing local results.</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    return;
+                }
+                
+                // Check if this is a sample test (sampleId or ID starting with a prefix like 'math-basic')
+                const isSampleTest = testId.includes('-') || 
+                                  document.URL.includes('sampleId=') || 
+                                  /^[a-z]+-[a-z]+-\d+$/.test(testId);
+                
+                if (isSampleTest) {
+                    console.log('Sample test ID detected, showing sample leaderboard:', testId);
+                    displaySampleLeaderboard(testId);
+                    return;
+                }
+                
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    console.warn('No user is logged in, cannot load leaderboard');
+                    
+                    // Add a message to tell the user to log in
+                    const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+                    if (leaderboardTable) {
+                        leaderboardTable.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px;">
+                                    <i class="fas fa-user-lock" style="font-size: 24px; color: #aaa; margin-bottom: 10px;"></i>
+                                    <p style="margin: 5px 0; color: #777;">Please log in to view the leaderboard.</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    return;
+                }
+                
+                try {
+                    // Show loading state in the leaderboard
+                    const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+                    if (leaderboardTable) {
+                        leaderboardTable.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px;">
+                                    <div class="spinner" style="
+                                        width: 30px;
+                                        height: 30px;
+                                        border: 3px solid #f3f3f3;
+                                        border-top: 3px solid #3498db;
+                                        border-radius: 50%;
+                                        animation: spin 1s linear infinite;
+                                        margin: 0 auto 10px;
+                                    "></div>
+                                    <p style="margin: 5px 0; color: #777;">Loading leaderboard data...</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                
+                    // Fetch leaderboard data
+                    const response = await fetch(`https://gsiytynzyccckzbzuxtc.supabase.co/rest/v1/test_results?select=id,score,time_taken,user_id,created_at&test_id=eq.${testId}&order=score.desc,time_taken.asc&limit=10`, {
+                        headers: {
+                            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzaXl0eW56eWNjY2t6Ynp1eHRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNDQzNzQsImV4cCI6MjA2MDgyMDM3NH0.Ew5f9QmEX3EzrxhIqvvJ8o7pS0TNnCS0yegIoY-T40g'
+                        },
+                        // Set timeout to avoid hanging
+                        signal: AbortSignal.timeout(5000) // 5 second timeout
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const leaderboardData = await response.json();
+                    console.log('Leaderboard data:', leaderboardData);
+                    
+                    // Update leaderboard UI
+                    updateLeaderboardUI(leaderboardData);
+                } catch (fetchError) {
+                    console.error('Error fetching leaderboard data:', fetchError);
+                    
+                    // Show error message
+                    const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+                    if (leaderboardTable) {
+                        leaderboardTable.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px;">
+                                    <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #e74c3c; margin-bottom: 10px;"></i>
+                                    <p style="margin: 5px 0; color: #777;">Failed to load leaderboard data.</p>
+                                    <p style="margin: 5px 0; color: #777; font-size: 0.9em;">${fetchError.message || 'Connection error'}</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error in loadLeaderboard function:', error);
+            }
+        }
+        
+        // Update leaderboard UI with data
+        function updateLeaderboardUI(leaderboardData) {
+            const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+            if (!leaderboardTable || !leaderboardData || leaderboardData.length === 0) return;
+            
+            // Clear existing rows
+            leaderboardTable.innerHTML = '';
+            
+            // Add data rows
+            leaderboardData.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                
+                // Format time
+                const minutes = Math.floor(entry.time_taken / 60);
+                const seconds = entry.time_taken % 60;
+                const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Format date
+                const date = new Date(entry.created_at).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                // Create user initials
+                const userInitials = entry.user_id.substring(0, 2).toUpperCase();
+                
+                // Mark current user
+                const currentUser = getCurrentUser();
+                const isCurrentUser = currentUser && entry.user_id === currentUser.id;
+                
+                row.innerHTML = `
+                    <td class="rank-cell">#${index + 1}</td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="user-avatar" ${isCurrentUser ? 'style="background-color: #4CAF50;"' : ''}>${userInitials}</div>
+                            <span>${isCurrentUser ? 'You' : `User ${userInitials}`}</span>
+                        </div>
+                    </td>
+                    <td class="score-cell">${entry.score}%</td>
+                    <td class="time-cell">${timeFormatted}</td>
+                    <td>${date}</td>
+                </tr>
+                `;
+                
+                leaderboardTable.appendChild(row);
+            });
+        }
+        
+        // Show loading state
+        function showLoadingState() {
+            // Create loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.id = 'loading-overlay';
+            loadingOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            loadingOverlay.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="spinner" style="
+                        width: 50px;
+                        height: 50px;
+                        border: 5px solid #f3f3f3;
+                        border-top: 5px solid #3498db;
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                        margin: 0 auto 20px;
+                    "></div>
+                    <p>Loading test results...</p>
+                </div>
+            `;
+            
+            document.body.appendChild(loadingOverlay);
+            
+            // Add keyframe animation
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Hide loading state
+        function hideLoadingState() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.remove();
+            }
+        }
+        
+        // Show error state
+        function showErrorState(message) {
+            const errorOverlay = document.createElement('div');
+            errorOverlay.id = 'error-overlay';
+            errorOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            errorOverlay.innerHTML = `
+                <div style="text-align: center; max-width: 80%;">
+                    <div style="color: #e74c3c; font-size: 3rem; margin-bottom: 20px;">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <h2 style="margin-bottom: 20px; color: #e74c3c;">Error</h2>
+                    <p style="margin-bottom: 30px;">${message}</p>
+                    <button id="error-close-btn" style="
+                        background: #3498db;
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    ">Close</button>
+                </div>
+            `;
+            
+            document.body.appendChild(errorOverlay);
+            
+            // Add close button event listener
+            document.getElementById('error-close-btn').addEventListener('click', () => {
+                errorOverlay.remove();
+                window.location.href = 'give-test.html';
+            });
+        }
+        
+        // Function to display a sample leaderboard for demo purposes
+        function displaySampleLeaderboard(sampleTestId) {
+            const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+            if (!leaderboardTable) return;
+            
+            // Get the current user if available
+            const currentUser = getCurrentUser();
+            const currentUserName = currentUser ? (currentUser.fullName || currentUser.email) : 'User'; 
+            
+            // Get user score from session storage
+            let userScore = 0;
+            try {
+                const testResultsStr = sessionStorage.getItem('testResults');
+                if (testResultsStr) {
+                    const testResults = JSON.parse(testResultsStr);
+                    userScore = testResults.score || 85; // Default to 85 if not available
+                }
+            } catch (e) {
+                console.warn('Error getting user score for sample leaderboard:', e);
+            }
+            
+            // Create sample dates (recent)
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const twoDaysAgo = new Date(today);
+            twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+            const threeDaysAgo = new Date(today);
+            threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+            const fourDaysAgo = new Date(today);
+            fourDaysAgo.setDate(fourDaysAgo.getDate() - 4);
+            
+            // Create a sample leaderboard with the current user
+            const sampleData = [
+                {
+                    rank: 1,
+                    name: userScore > 92 ? currentUserName : 'Alice Smith',
+                    userID: userScore > 92 ? (currentUser?.id || 'current') : 'user1',
+                    score: userScore > 92 ? userScore : 95,
+                    time: '25:30',
+                    date: userScore > 92 ? today : yesterday
+                },
+                {
+                    rank: 2,
+                    name: userScore <= 92 && userScore > 88 ? currentUserName : 'Bob Johnson',
+                    userID: userScore <= 92 && userScore > 88 ? (currentUser?.id || 'current') : 'user2',
+                    score: userScore <= 92 && userScore > 88 ? userScore : 92,
+                    time: '27:15',
+                    date: userScore <= 92 && userScore > 88 ? today : twoDaysAgo
+                },
+                {
+                    rank: 3,
+                    name: userScore <= 88 && userScore > 80 ? currentUserName : 'Carol Williams',
+                    userID: userScore <= 88 && userScore > 80 ? (currentUser?.id || 'current') : 'user3',
+                    score: userScore <= 88 && userScore > 80 ? userScore : 88,
+                    time: '26:45',
+                    date: userScore <= 88 && userScore > 80 ? today : threeDaysAgo
+                },
+                {
+                    rank: 4,
+                    name: userScore <= 80 && userScore > 75 ? currentUserName : 'David Brown',
+                    userID: userScore <= 80 && userScore > 75 ? (currentUser?.id || 'current') : 'user4',
+                    score: userScore <= 80 && userScore > 75 ? userScore : 80,
+                    time: '30:10',
+                    date: userScore <= 80 && userScore > 75 ? today : fourDaysAgo
+                },
+                {
+                    rank: 5,
+                    name: userScore <= 75 ? currentUserName : 'Emma Wilson',
+                    userID: userScore <= 75 ? (currentUser?.id || 'current') : 'user5',
+                    score: userScore <= 75 ? userScore : 75,
+                    time: '32:20',
+                    date: userScore <= 75 ? today : fourDaysAgo
+                }
+            ];
+            
+            // Generate HTML for the leaderboard
+            leaderboardTable.innerHTML = sampleData.map(entry => {
+                const isCurrentUser = entry.userID === 'current' || (currentUser && entry.userID === currentUser.id);
+                
+                const dateFormatted = entry.date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                // Create user initials for avatar
+                const nameParts = entry.name.split(' ');
+                const userInitials = nameParts.length > 1 
+                    ? (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase()
+                    : entry.name.substring(0, 2).toUpperCase();
+                
+                return `
+                    <tr ${isCurrentUser ? 'class="current-user-row"' : ''}>
+                        <td class="rank-cell">#${entry.rank}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar" ${isCurrentUser ? 'style="background-color: #4CAF50;"' : ''}>${userInitials}</div>
+                                <span>${isCurrentUser ? 'You' : entry.name}</span>
+                            </div>
+                        </td>
+                        <td class="score-cell">${entry.score}%</td>
+                        <td class="time-cell">${entry.time}</td>
+                        <td>${dateFormatted}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            // Add a style for highlighting the current user
+            const style = document.createElement('style');
+            style.textContent = `
+                .current-user-row {
+                    background-color: rgba(76, 175, 80, 0.1);
+                    font-weight: bold;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html> 

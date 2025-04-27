@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Username - PARIKSHA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="create-username.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="Login Page.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="container">
+        <div class="login-box">
+            <!-- Left Side (Username Form) -->
+            <div class="login-section">
+                <div class="username-box">
+                    <div class="content-section">
+                        <div class="header">
+                            <h1>Get your profile started</h1>
+                            <p class="subtitle">Add a username that's unique to you, this is how you'll appear to others.</p>
+                            <p class="warning">You can't change your username, so choose wisely.</p>
+                        </div>
+
+                        <form id="username-form" class="username-form">
+                            <div class="form-group">
+                                <label for="username">Choose a username</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-at"></i>
+                                    <input type="text" id="username" name="username" 
+                                           placeholder="john_smith" 
+                                           class="form-control" required
+                                           pattern="^[a-zA-Z0-9_]{3,20}$" 
+                                           maxlength="20">
+                                </div>
+                                <div class="username-availability">
+                                    <div id="username-message" class="username-message"></div>
+                                </div>
+                                <p class="helper-text">Username must be 3-20 characters long and can only contain letters, numbers, and underscores.</p>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn auth-btn primary" onclick="setUsername()">Continue</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side (Image Section) -->
+            <div class="image-section">                
+                <div class="overlay">
+                    <blockquote>
+                        "It always seems imposible<br>until it's done."                        
+                    </blockquote>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Initialize username availability check
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.getElementById('username');
+            const usernameMessage = document.getElementById('username-message');
+            
+            if (usernameInput) {
+                // Add debounce to avoid excessive checks
+                let timeout = null;
+                usernameInput.addEventListener('input', function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        checkUsernameAvailability(this.value);
+                    }, 500);
+                });
+            }
+            
+            // Form submission
+            const usernameForm = document.getElementById('username-form');
+            if (usernameForm) {
+                usernameForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = usernameInput.value;
+                    
+                    // Get user info from session storage
+                    const userJson = sessionStorage.getItem('user');
+                    if (!userJson) {
+                        window.location.href = 'signup.html';
+                        return;
+                    }
+                    
+                    const user = JSON.parse(userJson);
+                    
+                    // Update user info
+                    user.username = username;
+                    
+                    // Save updated user info
+                    sessionStorage.setItem('user', JSON.stringify(user));
+                    
+                    // Redirect to home page
+                    window.location.href = 'Pariksha Home Page.html';
+                });
+            }
+        });
+        
+        function checkUsernameAvailability(username) {
+            const usernameMessage = document.getElementById('username-message');
+            
+            if (!username || username.length < 3) {
+                usernameMessage.textContent = '';
+                usernameMessage.className = 'username-message';
+                return;
+            }
+            
+            // Check if username matches required pattern
+            const pattern = /^[a-zA-Z0-9_]{3,20}$/;
+            if (!pattern.test(username)) {
+                usernameMessage.textContent = 'Username can only contain letters, numbers, and underscores.';
+                usernameMessage.className = 'username-message error';
+                return;
+            }
+            
+            // Here you would make an API call to check availability
+            // For demonstration, we'll simulate some responses
+            
+            usernameMessage.textContent = 'Checking availability...';
+            usernameMessage.className = 'username-message checking';
+            
+            setTimeout(() => {
+                // Simulate random availability (for demo purposes)
+                const available = username.length > 5; // Simple demo logic
+                
+                if (available) {
+                    usernameMessage.textContent = 'Username is available!';
+                    usernameMessage.className = 'username-message available';
+                } else {
+                    usernameMessage.textContent = 'Username already taken. Please try another.';
+                    usernameMessage.className = 'username-message error';
+                }
+            }, 800);
+        }
+    </script>
+</body>
+</html> 

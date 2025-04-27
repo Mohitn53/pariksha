@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARIKSHA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Test if auth.js is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, testing auth.js...');
+            if (typeof signUp === 'function') {
+                console.log('auth.js loaded successfully!');
+            } else {
+                console.error('auth.js not loaded properly!');
+            }
+        });
+    </script>
+    
+    <!-- Load navbar CSS before other stylesheets -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="Pariksha Home Page.css">
+    <style>
+        /* Profile menu styles */
+        .profile-menu {
+            position: relative;
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .profile-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        #profile-btn {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        #profile-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .down-arrow {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .profile-menu:hover .profile-dropdown {
+            display: block;
+        }
+
+        .profile-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-dropdown ul li {
+            padding: 0;
+        }
+
+        .profile-dropdown ul li a,
+        .profile-dropdown ul li button {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .profile-dropdown ul li a:hover,
+        .profile-dropdown ul li button:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Navigation styles */
+        nav ul {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>PARIKSHA</h1>            
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="Pariksha Home Page.html" class="active">Home</a></li>
+                <li class="dropdown">
+                    <a>Tests <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="give-test.html">Give Test</a></li>
+                        <li><a href="create-test.html">Create Test</a></li>
+                    </ul>
+                </li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+
+                <div class="profile-menu">
+                    <div class="profile-group">
+                        <button id="profile-btn" aria-label="Profile menu">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <i class="fas fa-chevron-down down-arrow"></i>
+                    </div>                    
+                    <div class="profile-dropdown">
+                        <ul>
+                            <li><a href="My Profile.html">My Profile</a></li>
+                            <li><a href="dashboard.html">Dashboard</a></li>
+                            <li><button onclick="logout()">Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </ul>            
+        </nav>        
+    </header>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="text-section" data-aos="fade-up">
+            <h1>Take your Marks<br><span>to the Next Levels!</span></h1>
+            <p>Practice makes men Perfect.</p>
+            <button class="loginButton"><a href="Login Page.html">Get started</a></button>
+        </div>
+        <div class="illustration" data-aos="fade-up">
+            <img src="Study Illustration 2.png" alt="Online Education Illustration">
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <div class="feature-card" data-aos="fade-up">
+            <img src="Icons/syllabus.png" alt="Secured data">
+            <p><strong>100% Syllabus Covered</strong></p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+            <img src="Icons/online-test.png" alt="Users">
+            <p><strong>10,000+ Practice Tests</strong></p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+            <img src="Icons/students.png" alt="Reviews">
+            <p><strong>Trusted by Students & Educators</strong></p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+            <img src="Icons/key.png" alt="App of the day">
+            <p><strong>Anytime, Anywhere Access</strong></p>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-section" data-aos="fade-up">
+        <div class="content-with-image">
+            <img src="https://www.eklavvya.com/Content/wp-content/uploads/2023/02/practice-test-1.png" alt="Transaction Image">
+            <div class="text">
+                <h3>Give Practice Test</h3>
+                <p>Take practice tests effortlessly in just a few clicks. Choose from various subjects and difficulty levels to test your knowledge and improve your skills.</p>
+                <button class="btn"><a href="give-test.html">Give Test</a></button>
+            </div>
+        </div>
+
+        <div class="content-with-image">
+            <img src="https://www.edtechreview.in/wp-content/uploads/Daily/E-Learning/online_resources_for_teaching_learning.png" alt="Income and Expense Chart">
+            <div class="text">
+                <h3>Study Resources</h3>
+                <p>Access a curated collection of study materials. Find notes, articles, and guides to help you prepare effectively for your practice tests.</p>
+                <button class="btn"><a href="resources.html">Study Resources</a></button>
+            </div>
+        </div>
+    </div>
+   
+    <div class="support">
+        <i class="fas fa-question"></i>
+    </div>
+     
+    <!-- Content from index (4.1) starts here -->
+
+<div class="fea-container">
+    <h1>Features our users love</h1>
+    <div class="features-grid" data-aos="fade-up">
+        <div class="feature">
+            <img src="Icons/devices.png" alt="Multiple Devices Icon">
+            <h3>Multi Device Access</h3>
+            <p>Access tests and study materials on any device. Sync your progress seamlessly.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/analysis.png" alt="Recurring Transaction Icon">
+            <h3>Performance Analysis</h3>
+            <p>Track your progress with detailed insights and reports. Identify strengths and areas for improvement.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/stopwatch.png" alt="Travel Mode Icon">
+            <h3>Timer-Based Tests</h3>
+            <p>Simulate real exam conditions with timed tests. Improve speed and accuracy under pressure.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/instructions.png" alt="Saving Plan Icon">
+            <h3>Question Bank</h3>
+            <p>Access a vast collection of questions across various subjects. Practice anytime with diverse test sets.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/plan.png" alt="Debt and Loan Icon">
+            <h3>Adaptive Testing</h3>
+            <p>Experience tests that adjust difficulty based on your performance. Get a personalized learning experience.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/podium.png" alt="Effortless Transaction Icon">
+            <h3>Leaderboard & Rankings</h3>
+            <p>Compete with others and climb the leaderboard. Track your rank and challenge friends.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/bookmark.png" alt="Effortless Transaction Icon">
+            <h3>Bookmark Questions</h3>
+            <p>Save important questions for quick access. Revisit them anytime for better revision.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/explaination.png" alt="Effortless Transaction Icon">
+            <h3>Review & Explanation</h3>
+            <p>Get detailed explanations for every question. Learn from mistakes with step-by-step solutions.</p>
+        </div>
+        <div class="feature">
+            <img src="Icons/customization.png" alt="Effortless Transaction Icon">
+            <h3>Custom Test Mode</h3>
+            <p>Create and take tests your way. Set topics, difficulty, and time limits for a personalized experience.</p>
+        </div>
+    </div>
+</div>
+
+<div class="testimonials">
+    <h2>See what others have to say</h2>
+    <div class="rating">
+        ⭐⭐⭐⭐⭐ 4.9 Based on user reviews
+    </div>
+    <div class="testimonials-grid" data-aos="fade-up">
+        <div class="testimonial">
+            <p>The Practice Test Management System made my exam preparation much easier. I could create my own quizzes and track my progress. The dashboard is very motivating!"</p>
+            <strong>Prashant Ray</strong>
+        </div>
+        <div class="testimonial">
+            <p>"I liked how simple and fast the website is. Uploading documents to generate tests saved me a lot of time.
+                It's a perfect tool for quick revision before exams.".</p>
+            <strong>Priyansh Rupapara</strong>
+        </div>
+        <div class="testimonial">
+            <p>"This platform is amazing! I could practice tests anytime and see my performance improve. The resources section also provided extra materials that were very helpful.".</p>
+            <strong>Dheeraj Pal</strong>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ -->
+
+<section class="faq-section">
+    <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-description">Get answers to common questions about PARIKSHA and how it can help you succeed.</p>
+        
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How do I get started with PARIKSHA?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Getting started is easy! Simply create an account, explore the available practice tests, and start practicing. You can also create custom tests or generate specialized ones based on your learning needs.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Are the practice tests free to use?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we offer a range of free practice tests for all users. Premium subscribers get access to additional advanced tests, detailed analytics, and personalized recommendations.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can I create my own custom tests?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! Our "Create Test" feature allows you to design custom tests with your own questions, options, and difficulty levels. You can share these tests with others or keep them private for personal practice.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can I track my progress over time?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, PARIKSHA provides detailed analytics to help you track your performance. View your test history, analyze your strengths and weaknesses, and monitor your improvement over time through your personal dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Team -->
+<section class="team-section">
+    <div class="container-fluid">
+        <h2>Our Team</h2>
+        <p class="section-description">Meet the dedicated team behind PARIKSHA who are passionate about education and technology.</p>
+        
+        <div class="team-carousel">
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <div class="team-member">
+                            <div class="member-img">
+                                <img src="Prashant Photo.png" alt="Team Member">
+                            </div>
+                            <div class="member-info">
+                                <h3>Prashant Ray</h3>
+                                <p class="member-role">UX/UI Designer</p>
+                                <p class="member-bio">Education enthusiast with over 10 years of experience in EdTech. Passionate about making learning accessible to everyone.</p>
+                                <div class="member-social">
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="team-member">
+                            <div class="member-img">
+                                <img src="mohit.jpg" alt="Team Member">
+                            </div>
+                            <div class="member-info">
+                                <h3>Mohit Nirmal</h3>
+                                <p class="member-role">Database Developer</p>
+                                <p class="member-bio">Full-stack developer with expertise in educational software development. Loves creating intuitive and engaging learning platforms.</p>
+                                <div class="member-social">
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="team-member">
+                            <div class="member-img">
+                                <img src="baskar.jpg" alt="Team Member">
+                            </div>
+                            <div class="member-info">
+                                <h3>Baskar Pillai</h3>
+                                <p class="member-role">Backend Developer</p>
+                                <p class="member-bio">Former educator with a doctorate in Educational Psychology. Expert in developing engaging and effective test content.</p>
+                                <div class="member-social">
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="team-member">
+                            <div class="member-img">
+                                <img src="dhee.jpeg" alt="Team Member">
+                            </div>
+                            <div class="member-info">
+                                <h3>Dheeraj Pal</h3>
+                                <p class="member-role">Backend Developer</p>
+                                <p class="member-bio">Creative designer with a passion for crafting user-centric interfaces. Committed to making learning experiences both beautiful and functional.</p>
+                                <div class="member-social">
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-dribbble"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-indicators">
+                <button class="indicator active" data-index="0"></button>
+                <button class="indicator" data-index="1"></button>
+                <button class="indicator" data-index="2"></button>
+                <button class="indicator" data-index="3"></button>
+            </div>
+            
+            <div class="carousel-controls">
+                <button class="carousel-control prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-control next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>            
+        </div>
+    </div>    
+</section>
+    
+<!-- Footer -->
+<footer>
+    <div class="footer-container" data-aos="fade-up">
+        <div class="footer-section">
+            <h3>QUICK LINKS</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Give Test</a></li>
+                <li><a href="#">Create Test</a></li>
+                <li><a href="#">Test Results</a></li>
+                <li><a href="#">Analystics</a></li>                
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>LEARN</h3>
+            <ul>
+                <li><a href="#">Notes</a></li>
+                <li><a href="#">Previous Year Questions</a></li>
+                <li><a href="#">Important Questions</a></li>
+                <li><a href="#">Important Topics</a></li>
+                <li><a href="#">Video Tutorials</a></li>                
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>LEGAL</h3>
+            <ul>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">License Agreement</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Copyright Info</a></li>
+                <li><a href="#">Cookies Policy</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>SUPPORT</h3>
+            <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">User Guide</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section social">
+            <h3>CONNECT WITH US</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>            
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 PARIKSHA. All rights reserved.</p>
+        <p><a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
+    </div>
+
+</footer>
+
+<!-- JavaScript -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();        
+    </script>
+<script src="js/main.js"></script>
+<script>
+    // Display the current authentication state for debugging
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Checking auth state on home page...');
+        
+        // Check both storage types
+        const userFromSession = sessionStorage.getItem('user');
+        const userFromLocal = localStorage.getItem('user');
+        
+        console.log('User from sessionStorage:', userFromSession);
+        console.log('User from localStorage:', userFromLocal);
+        
+        // Check if auth.js functions are available
+        if (typeof getCurrentUser === 'function') {
+            const currentUser = getCurrentUser();
+            console.log('Current user from auth.js:', currentUser);
+            
+            // Show a small notification to confirm login status
+            if (currentUser) {
+                const notificationDiv = document.createElement('div');
+                notificationDiv.style.position = 'fixed';
+                notificationDiv.style.bottom = '10px';
+                notificationDiv.style.right = '10px';
+                notificationDiv.style.backgroundColor = '#4CAF50';
+                notificationDiv.style.color = 'white';
+                notificationDiv.style.padding = '10px';
+                notificationDiv.style.borderRadius = '5px';
+                notificationDiv.style.zIndex = '1000';
+                notificationDiv.innerHTML = `Logged in as: ${currentUser.email}`;
+                document.body.appendChild(notificationDiv);
+                
+                // Remove notification after 5 seconds
+                setTimeout(() => {
+                    notificationDiv.remove();
+                }, 5000);
+            }
+        } else {
+            console.error('getCurrentUser function not found - auth.js may not be loaded properly');
+        }
+    });
+</script>
+
+</body>
+</html>

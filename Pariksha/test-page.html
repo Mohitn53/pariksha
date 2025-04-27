@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - PARIKSHA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="test-page.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="test-utils.js"></script>
+</head>
+<body>
+    <!-- Instructions Modal -->
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content">
+            <h2>Test Instructions</h2>
+            <div class="instructions-list">
+                <p>Please read the following instructions carefully:</p>
+                <ul>
+                    <li>This test contains <span id="totalQuestions">20</span> multiple choice questions.</li>
+                    <li>You have <span id="totalTime">30</span> minutes to complete the test.</li>
+                    <li>Each question has 4 options with only one correct answer.</li>
+                    <li>You can navigate between questions using the Next and Previous buttons.</li>
+                    <li>You can also jump to any question using the question palette.</li>
+                    <li>The timer will be displayed at the top of the page.</li>
+                    <li>The test will auto-submit when the time is up.</li>
+                    <li>Click on "Start Test" when you're ready to begin.</li>
+                </ul>
+            </div>
+            <button id="startTestBtn" class="btn primary">Start Test</button>
+        </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Submission</h2>
+            <p>Are you sure you want to submit the test?</p>
+            <div class="submission-stats">
+                <div class="stat">
+                    <span class="label">Attempted:</span>
+                    <span id="attemptedCount">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Not Attempted:</span>
+                    <span id="notAttemptedCount">0</span>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="confirmSubmit" class="btn primary">Yes, Submit</button>
+                <button id="cancelSubmit" class="btn secondary">Continue Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Up Modal -->
+    <div id="timeUpModal" class="modal">
+        <div class="modal-content">
+            <h2>Time's Up!</h2>
+            <p>Your test will be automatically submitted.</p>
+            <button id="timeUpOk" class="btn primary">OK</button>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <h2>Loading Test</h2>
+            <p>Please wait while we prepare your test...</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <h2>Error</h2>
+            <p id="errorMessage">An error occurred while loading the test.</p>
+            <button id="errorOk" class="btn primary">OK</button>
+        </div>
+    </div>
+
+    <!-- Main Test Content -->
+    <div class="test-container" style="display: none;">
+        <!-- Header -->
+        <div class="test-header">
+            <div class="test-info">
+                <h2>Basic Mathematics Test</h2>
+                <div class="progress-info">
+                    <span>Question <span id="currentQuestion">1</span> of <span id="totalQuestionsTop">20</span></span>
+                </div>
+            </div>
+            <div class="timer">
+                <i class="fas fa-clock"></i>
+                <span id="timeLeft">30:00</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="test-content">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-text">
+                    <span id="questionNumber">Q1.</span>
+                    <p id="questionText">What is the sum of angles in a triangle?</p>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="answer" id="option1" value="0">
+                        <label for="option1">180 degrees</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="option2" value="1">
+                        <label for="option2">360 degrees</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="option3" value="2">
+                        <label for="option3">90 degrees</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="option4" value="3">
+                        <label for="option4">270 degrees</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Palette -->
+            <div class="question-palette">
+                <h3>Question Palette</h3>
+                <div class="palette-info">
+                    <div class="palette-item">
+                        <span class="answered"></span> Answered
+                    </div>
+                    <div class="palette-item">
+                        <span class="not-answered"></span> Not Answered
+                    </div>
+                    <div class="palette-item">
+                        <span class="not-visited"></span> Not Visited
+                    </div>
+                </div>
+                <div class="question-grid" id="questionGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="test-footer">
+            <button id="prevBtn" class="btn secondary">Previous</button>
+            <button id="nextBtn" class="btn primary">Next</button>
+            <button id="submitBtn" class="btn submit">Submit Test</button>
+        </div>
+    </div>
+
+    <script>
+        // Add CSS for the loader
+        const style = document.createElement('style');
+        style.textContent = `
+            .loader {
+                border: 5px solid #f3f3f3;
+                border-top: 5px solid #3498db;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                animation: spin 1s linear infinite;
+                margin: 20px auto;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Variables for test data and state
+        let testData = null;
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let timeLeft = 0;
+        let timer;
+        let answers = [];
+        let testStarted = false;
+
+        // DOM Elements
+        const loadingModal = document.getElementById('loadingModal');
+        const errorModal = document.getElementById('errorModal');
+        const instructionsModal = document.getElementById('instructionsModal');
+        const submitModal = document.getElementById('submitModal');
+        const timeUpModal = document.getElementById('timeUpModal');
+        const testContainer = document.querySelector('.test-container');
+        const startTestBtn = document.getElementById('startTestBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const confirmSubmit = document.getElementById('confirmSubmit');
+        const cancelSubmit = document.getElementById('cancelSubmit');
+        const timeUpOk = document.getElementById('timeUpOk');
+        const errorOk = document.getElementById('errorOk');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Event listeners for error handling
+        errorOk.addEventListener('click', () => {
+            window.location.href = 'give-test.html';
+        });
+
+        // Initialize test on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            loadingModal.style.display = 'block';
+
+            try {
+                // Check if user is logged in
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    showError('You must be logged in to take a test.');
+                    return;
+                }
+
+                // Get test ID from URL if available
+                const urlParams = new URLSearchParams(window.location.search);
+                const testId = urlParams.get('id');
+
+                let result;
+                // Changed order to prioritize database fetching
+                if (testId) {
+                    // Fetch specific test by ID from database
+                    console.log('Fetching test by ID from database:', testId);
+                    result = await getTestDetails(testId);
+                    console.log('Test details result:', result);
+                    if (result.success) {
+                        testData = result.data;
+                        console.log('Retrieved test data from database:', testData);
+                        initializeTestData();
+                    } else {
+                        showError('Failed to load test: ' + result.error);
+                    }
+                } else {
+                    // If no test ID provided, try to generate a new test
+                    try {
+                        console.log('Generating a new test');
+                        result = await generateSampleTest(currentUser.id);
+                        if (result.success) {
+                            // Fetch the newly created test from database
+                            const fetchResult = await getTestDetails(result.data.testId);
+                            if (fetchResult.success) {
+                                testData = fetchResult.data;
+                                initializeTestData();
+                            } else {
+                                throw new Error('Failed to load generated test: ' + fetchResult.error);
+                            }
+                        } else {
+                            throw new Error('Failed to generate test: ' + result.error);
+                        }
+                    } catch (generateError) {
+                        console.error('Error generating test:', generateError);
+                        // If generation fails, try to fetch a random existing test from database
+                        console.log('Trying to fetch a random test from database');
+                        result = await getRandomTest();
+                        if (result.success) {
+                            testData = result.data;
+                            initializeTestData();
+                        } else {
+                            // Only use session storage as a last resort if all database fetches fail
+                            const sessionTest = sessionStorage.getItem('currentTest');
+                            if (sessionTest) {
+                                console.log('All database fetches failed. Using test from sessionStorage as fallback');
+                                testData = JSON.parse(sessionTest);
+                                console.log('Test data from session:', testData);
+                                initializeTestData();
+                            } else {
+                                showError('Failed to load test: ' + result.error);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error initializing test:', error);
+                showError('Failed to initialize test: ' + error.message);
+            }
+        });
+
+        // Initialize test data
+        function initializeTestData() {
+            console.log('Initializing test data:', testData);
+            
+            if (!testData) {
+                console.error('Test data is null or undefined');
+                showError('Invalid test data: No data received');
+                return;
+            }
+
+            if (!testData.questions) {
+                console.error('Test data has no questions array');
+                showError('Invalid test data: No questions found');
+                return;
+            }
+
+            if (testData.questions.length === 0) {
+                console.error('Test data has empty questions array');
+                showError('Invalid test data: Test has no questions');
+                return;
+            }
+
+            // Log the first question for debugging
+            console.log('First question sample:', testData.questions[0]);
+
+            // Update test title and instructions
+            document.querySelector('.test-header h2').textContent = testData.title || 'Test';
+            document.getElementById('totalQuestions').textContent = testData.questions.length;
+            document.getElementById('totalTime').textContent = testData.timeLimit || 30;
+            document.getElementById('totalQuestionsTop').textContent = testData.questions.length;
+
+            try {
+                // Convert test data to questions array with careful error handling
+                questions = testData.questions.map((q, index) => {
+                    try {
+                        // Check for required fields
+                        if (!q.question) {
+                            console.warn(`Question ${index} missing question text:`, q);
+                        }
+                        if (!q.optionA || !q.optionB || !q.optionC || !q.optionD) {
+                            console.warn(`Question ${index} missing options:`, q);
+                        }
+                        if (!q.correct) {
+                            console.warn(`Question ${index} missing correct answer:`, q);
+                        }
+                        
+                        // Create options array, handling missing options
+                        const options = [
+                            q.optionA || `Option A (missing)`,
+                            q.optionB || `Option B (missing)`,
+                            q.optionC || `Option C (missing)`,
+                            q.optionD || `Option D (missing)`
+                        ];
+                        
+                        // Determine correct answer
+                        let correct = 0; // Default to first option if we can't determine
+                        if (q.correct && typeof q.correct === 'string') {
+                            // Try to convert A, B, C, D to 0, 1, 2, 3
+                            try {
+                                correct = q.correct.charCodeAt(0) - 65;
+                                // Ensure it's in valid range
+                                if (correct < 0 || correct > 3) {
+                                    console.warn(`Question ${index} has invalid correct answer: ${q.correct}`);
+                                    correct = 0;
+                                }
+                            } catch (e) {
+                                console.error(`Error processing correct answer for question ${index}:`, e);
+                                correct = 0;
+                            }
+                        }
+                        
+                        return {
+                            question: q.question || `Question ${index + 1}`,
+                            options: options,
+                            correct: correct
+                        };
+                    } catch (error) {
+                        console.error(`Error processing question ${index}:`, error);
+                        // Return a default question if there's an error
+                        return {
+                            question: `Question ${index + 1} (Error)`,
+                            options: ['Option A', 'Option B', 'Option C', 'Option D'],
+                            correct: 0
+                        };
+                    }
+                });
+
+                // Log processed questions for debugging
+                console.log('Processed questions:', questions);
+
+                // Initialize answers array
+                answers = new Array(questions.length).fill(null);
+                
+                // Set time limit
+                timeLeft = testData.timeLimit * 60 || 1800; // Convert minutes to seconds, default 30 min
+                
+                // Hide loading modal and show instructions
+                loadingModal.style.display = 'none';
+            instructionsModal.style.display = 'block';
+                
+                // Initialize the question grid
+            populateQuestionGrid();
+            } catch (error) {
+                console.error('Error in initializeTestData:', error);
+                showError('Failed to initialize test: ' + error.message);
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            loadingModal.style.display = 'none';
+            document.getElementById('errorMessage').textContent = message;
+            errorModal.style.display = 'block';
+        }
+
+        // Start test
+        startTestBtn.addEventListener('click', () => {
+            instructionsModal.style.display = 'none';
+            testContainer.style.display = 'block';
+            testStarted = true;
+            startTimer();
+            loadQuestion(0);
+        });
+
+        // Timer function
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    showTimeUpModal();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timeLeft').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Load question
+        function loadQuestion(index) {
+            const question = questions[index];
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('currentQuestion').textContent = index + 1;
+            document.getElementById('questionNumber').textContent = `Q${index + 1}.`;
+
+            // Update options
+            const options = document.querySelectorAll('.option input');
+            options.forEach((option, i) => {
+                option.checked = answers[index] === i;
+                option.nextElementSibling.textContent = question.options[i];
+            });
+
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === questions.length - 1 ? "Submit" : "Next";
+            updateQuestionPalette();
+        }
+
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                showSubmitModal();
+            }
+        });
+
+        // Submit handlers
+        submitBtn.addEventListener('click', showSubmitModal);
+        confirmSubmit.addEventListener('click', submitTest);
+        cancelSubmit.addEventListener('click', () => {
+            submitModal.style.display = 'none';
+        });
+        timeUpOk.addEventListener('click', submitTest);
+
+        function showSubmitModal() {
+            const attempted = answers.filter(a => a !== null).length;
+            document.getElementById('attemptedCount').textContent = attempted;
+            document.getElementById('notAttemptedCount').textContent = questions.length - attempted;
+            submitModal.style.display = 'block';
+        }
+
+        function showTimeUpModal() {
+            timeUpModal.style.display = 'block';
+        }
+
+        function submitTest() {
+            try {
+                console.log("Submit test function called");
+                
+                // Fix: Use the correct element ID 'submitBtn' instead of 'submit-btn'
+                document.getElementById('submitBtn').disabled = true;
+            
+                // Fix: Create a warning message element dynamically if it doesn't exist
+                const warningMsg = document.getElementById('warning-message') || 
+                    (function() {
+                        const div = document.createElement('div');
+                        div.id = 'warning-message';
+                        div.style.display = 'none';
+                        div.style.color = '#ff6b00';
+                        div.style.padding = '10px';
+                        div.style.marginBottom = '10px';
+                        div.style.backgroundColor = '#fff3cd';
+                        div.style.borderRadius = '4px';
+                        document.querySelector('.test-container').prepend(div);
+                        return div;
+                    })();
+                
+                // Fix: Create error message element dynamically if it doesn't exist
+                const errorMsg = document.getElementById('error-message') || 
+                    (function() {
+                        const div = document.createElement('div');
+                        div.id = 'error-message';
+                        div.style.display = 'none';
+                        div.style.color = '#dc3545';
+                        div.style.padding = '10px';
+                        div.style.marginBottom = '10px';
+                        div.style.backgroundColor = '#f8d7da';
+                        div.style.borderRadius = '4px';
+                        document.querySelector('.test-container').prepend(div);
+                        return div;
+                    })();
+                
+                // Create loading indicator if it doesn't exist
+                let loadingIndicator = document.getElementById('loading-indicator');
+                if (!loadingIndicator) {
+                    loadingIndicator = document.createElement('div');
+                    loadingIndicator.id = 'loading-indicator';
+                    loadingIndicator.className = 'loader';
+                    loadingIndicator.style.display = 'none';
+                    document.querySelector('.test-footer').prepend(loadingIndicator);
+                }
+                loadingIndicator.style.display = 'block';
+                
+                // Rest of the existing code
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    console.warn("No user logged in. Results will only be saved locally.");
+                    warningMsg.textContent = "You're not logged in. Test results will be saved locally only.";
+                    warningMsg.style.display = 'block';
+                } else {
+                    console.log("User logged in:", currentUser.id);
+                }
+
+                // FIXED: Use the existing answers array instead of creating a new one
+                // This contains the user's selections that we've been tracking throughout the test
+                console.log(`Collected ${answers.filter(a => a !== null).length} answers out of ${questions.length} questions`);
+
+                // Calculate score
+                let score = 0;
+                let correctAnswers = 0;
+            
+                // Calculate correct answers
+                questions.forEach((question, index) => {
+                    const userAnswer = answers[index];
+                    const correctAnswer = question.correct;
+                    
+                    if (userAnswer === correctAnswer) correctAnswers++;
+                });
+                
+                score = Math.round((correctAnswers / questions.length) * 100);
+                console.log(`Score calculated: ${score}% (${correctAnswers} correct out of ${questions.length})`);
+
+                // Fix: Use the testData variable
+                const endTime = new Date();
+                const startTime = new Date(endTime.getTime() - ((testData.timeLimit * 60 - timeLeft) * 1000));
+                const timeTaken = Math.round((endTime - startTime) / 1000);
+                
+                const testResult = {
+                    // Use a valid UUID format or omit the field entirely
+                    ...(testData.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(testData.id) ? { testId: testData.id } : {}),
+                    userId: currentUser ? currentUser.id : 'guest',
+                    testTitle: testData.title || 'Untitled Test',
+                    score: score,
+                timeTaken: timeTaken,
+                    startTime: startTime,
+                    endTime: endTime,
+                    questions: questions,
+                answers: answers,
+                    totalQuestions: questions.length,
+                    correctAnswers: correctAnswers,
+                    incorrectAnswers: answers.filter(a => a !== null).length - correctAnswers
+                };
+                
+                console.log("Test result data prepared:", JSON.stringify(testResult, null, 2));
+
+                // Call the saveTestResult function from test-utils.js
+                saveTestResult(testResult)
+                    .then(result => {
+                        console.log("Save result response:", result);
+                        
+                        if (result.success) {
+                            console.log("Test saved successfully:", result.data ? "Database" : "Local storage");
+                            
+                            // Store the ID if it was returned
+                            if (result.data && result.data.id) {
+                                console.log("Saving test result ID:", result.data.id);
+                                sessionStorage.setItem('testResultId', result.data.id);
+                            }
+                            
+                            // Always save the test results to session storage as a backup
+                            sessionStorage.setItem('testResults', JSON.stringify(result.data || testResult));
+                            
+                            // If this is a local save only, set the flag
+                            if (result.localSaved) {
+                                sessionStorage.setItem('localSavedOnly', 'true');
+                            }
+            
+                            // Redirect to results page with ID if available
+                            const resultId = result.data?.id || '';
+                            window.location.href = `results.html${resultId ? '?id=' + resultId : ''}`;
+                        } else {
+                            console.error("Failed to save test:", result.error);
+                            
+                            // Still save to session storage as backup
+                            sessionStorage.setItem('testResults', JSON.stringify(testResult));
+                            sessionStorage.setItem('localSavedOnly', 'true');
+                            
+                            // Show error to user
+                            errorMsg.textContent = "Error saving test results: " + (result.error || "Unknown error");
+                            errorMsg.style.display = 'block';
+                            
+                            // Since we saved locally, we can still go to results
+                            setTimeout(() => {
+                                window.location.href = 'results.html';
+                            }, 2000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Exception in saveTestResult:", error);
+                        
+                        // As a fallback, save to session storage
+                        sessionStorage.setItem('testResults', JSON.stringify(testResult));
+                        
+                        // Show error
+                        errorMsg.textContent = "Error: " + (error.message || "Unknown error saving test");
+                        errorMsg.style.display = 'block';
+                        
+                        // Redirect to results automatically after a short delay
+                        setTimeout(() => {
+                            window.location.href = 'results.html';
+                        }, 2000);
+                    });
+            } catch (error) {
+                console.error("Error in submitTest function:", error);
+                alert("An error occurred while submitting your test: " + error.message);
+                
+                // Re-enable the submit button
+                document.getElementById('submitBtn').disabled = false;
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Helper function to find the correct answer index from different possible formats
+        function findCorrectAnswer(question) {
+            if (question.correct_answer !== undefined) return question.correct_answer;
+            if (question.correct_option !== undefined) return question.correct_option;
+            if (question.correct !== undefined) return question.correct;
+            
+            // If no correct answer field is found, default to first option
+            console.warn("No correct answer field found for question:", question);
+            return 0;
+        }
+
+        // Question palette
+        function populateQuestionGrid() {
+            const grid = document.getElementById('questionGrid');
+            grid.innerHTML = ''; // Clear existing buttons if any
+            
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = i + 1;
+                button.className = 'question-number not-visited';
+                button.addEventListener('click', () => {
+                    currentQuestionIndex = i;
+                    loadQuestion(i);
+                });
+                grid.appendChild(button);
+            }
+        }
+
+        function updateQuestionPalette() {
+            const buttons = document.querySelectorAll('.question-number');
+            buttons.forEach((button, index) => {
+                button.className = 'question-number ' + 
+                    (answers[index] !== null ? 'answered' : 
+                     index === currentQuestionIndex ? 'current' : 'not-answered');
+            });
+        }
+
+        // Answer selection
+        document.querySelectorAll('.option input').forEach(input => {
+            input.addEventListener('change', () => {
+                const selectedValue = parseInt(input.value);
+                answers[currentQuestionIndex] = selectedValue;
+                updateQuestionPalette();
+            });
+        });
+    </script>
+</body>
+</html> 

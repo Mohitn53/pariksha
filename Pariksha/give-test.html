@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Test - PARIKSHA</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/give-test.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="test-utils.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>PARIKSHA</h1>            
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="Pariksha Home Page.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Tests <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="give-test.html" class="active">Give Test</a></li>
+                        <li><a href="create-test.html">Create Test</a></li>
+                        <li><a href="generate-test.html">Generate Test</a></li>
+                    </ul>
+                </li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+
+                <div class="profile-menu">
+                    <div class="profile-group">
+                        <button id="profile-btn" aria-label="Profile menu">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <i class="fas fa-chevron-down down-arrow"></i>
+                    </div>                    
+                    <div class="profile-dropdown">
+                        <ul>
+                            <!-- This will be dynamically populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </ul>            
+        </nav>        
+    </header>
+
+    <main class="container">
+        <div class="test-content-wrapper">
+            <!-- Sidebar Navigation -->
+            <aside class="test-sidebar">
+                <h3>Test Navigation</h3>
+                <ul class="test-sidebar-nav">
+                    <li><a href="#available-tests" class="active"><i class="fas fa-list-ul"></i> Available Tests</a></li>
+                    <li><a href="#history"><i class="fas fa-history"></i> History</a></li>
+                    <li><a href="#access-code"><i class="fas fa-key"></i> Access Code</a></li>
+                </ul>
+            </aside>
+            
+            <!-- Main Content -->
+            <div class="test-main-content">
+                <div id="available-tests" class="test-tab active">
+                    <div class="search-filter">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search tests...">
+                        </div>
+                        <div class="filter-options">
+                            <select name="subject">
+                                <option value="all">All Subjects</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="english">English</option>
+                                <option value="history">History</option>
+                                <option value="computer">Computer Science</option>
+                            </select>
+                            <select name="difficulty">
+                                <option value="all">All Difficulties</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="test-grid">
+                        <!-- Test Card 1 -->
+                        <div class="test-card" data-subject="mathematics" data-difficulty="easy">
+                            <div class="test-card-header">
+                                <h3>Basic Mathematics</h3>
+                                <p>Fundamental concepts of mathematics</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">20</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">30 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">124</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Jan 15, 2023</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Test your understanding of basic mathematical concepts including arithmetic, algebra, and geometry fundamentals.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty easy">Easy</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="math-basic-01">Start Test</a>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 2 -->
+                        <div class="test-card" data-subject="science" data-difficulty="medium">
+                            <div class="test-card-header">
+                                <h3>Physics Mechanics</h3>
+                                <p>Newton's laws and basic mechanics</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">15</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">25 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">89</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Feb 3, 2023</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Test your knowledge of classical mechanics, including Newton's laws of motion, energy conservation, and simple harmonic motion.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty medium">Medium</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="physics-mech-01">Start Test</a>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 3 -->
+                        <div class="test-card" data-subject="english" data-difficulty="easy">
+                            <div class="test-card-header">
+                                <h3>English Grammar</h3>
+                                <p>Basic grammar and punctuation</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">25</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">30 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">156</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Dec 12, 2022</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Assess your understanding of English grammar, including parts of speech, sentence structure, and common grammatical rules.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty easy">Easy</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="eng-grammar-01">Start Test</a>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 4 -->
+                        <div class="test-card" data-subject="computer" data-difficulty="hard">
+                            <div class="test-card-header">
+                                <h3>Data Structures</h3>
+                                <p>Advanced data structures and algorithms</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">15</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">45 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">78</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Mar 5, 2023</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Challenge yourself with advanced data structures including trees, graphs, heaps, and complex algorithm implementation and analysis.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty hard">Hard</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="cs-datastruc-01">Start Test</a>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 5 -->
+                        <div class="test-card" data-subject="history" data-difficulty="medium">
+                            <div class="test-card-header">
+                                <h3>World War II</h3>
+                                <p>Major events and figures</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">20</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">35 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">105</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Jan 28, 2023</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Test your knowledge about World War II, including key battles, political leaders, and the social impact of the global conflict.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty medium">Medium</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="hist-ww2-01">Start Test</a>
+                            </div>
+                        </div>
+
+                        <!-- Test Card 6 -->
+                        <div class="test-card" data-subject="science" data-difficulty="hard">
+                            <div class="test-card-header">
+                                <h3>Organic Chemistry</h3>
+                                <p>Reactions and mechanisms</p>
+                            </div>
+                            <div class="test-card-body">
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Questions</span>
+                                        <span class="info-value">18</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">40 mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Attempts</span>
+                                        <span class="info-value">67</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">Feb 15, 2023</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">Challenge yourself with complex organic chemistry concepts, reaction mechanisms, stereochemistry, and synthesis strategies.</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty hard">Hard</span>
+                                <a href="#" class="btn-small btn-start-test" data-test-id="chem-organic-01">Start Test</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Tab Content -->
+                <div id="history" class="test-tab" style="display: none;">
+                    <h3>Test History</h3>
+                    <div class="test-history-table">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Test Name</th>
+                                    <th>Date</th>
+                                    <th>Score</th>
+                                    <th>Time Taken</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Basic Mathematics</td>
+                                    <td>Apr 15, 2023</td>
+                                    <td>85%</td>
+                                    <td>28 mins</td>
+                                    <td>
+                                        <a href="#" class="btn-small">View Results</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>English Grammar</td>
+                                    <td>Apr 10, 2023</td>
+                                    <td>92%</td>
+                                    <td>25 mins</td>
+                                    <td>
+                                        <a href="#" class="btn-small">View Results</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>World War II</td>
+                                    <td>Mar 28, 2023</td>
+                                    <td>78%</td>
+                                    <td>32 mins</td>
+                                    <td>
+                                        <a href="#" class="btn-small">View Results</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Access Code Tab Content -->
+                <div id="access-code" class="test-tab" style="display: none;">
+                    <h3>Enter Access Code</h3>
+                    <p>Enter a test access code to unlock a private test shared with you.</p>
+                    <div class="form-group" style="max-width: 400px; margin-top: 20px;">
+                        <label for="access-code-input">Access Code</label>
+                        <input type="text" id="access-code-input" class="form-control" placeholder="Enter test access code...">
+                        <button class="btn primary" style="margin-top: 20px;">Unlock Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>   
+
+    <script src="js/main.js"></script>
+    <script>
+        // Define page-specific updateUIForLoggedOutUser function to override the one from auth.js
+        function updateUIForLoggedOutUser() {
+            console.log('[Debug] Custom updateUIForLoggedOutUser called for give-test.html');
+            
+            try {
+                // First call the original function from auth.js if available
+                if (window.originalUpdateUIForLoggedOutUser) {
+                    window.originalUpdateUIForLoggedOutUser();
+                }
+                
+                // Then handle page-specific UI changes
+                console.log('[Debug] Loading sample tests for logged out user');
+                setTimeout(function() {
+                    try {
+                        loadSampleTests();
+                    } catch (loadError) {
+                        console.error('[Debug] Error loading sample tests:', loadError);
+                    }
+                }, 100); // Small delay to ensure DOM is ready
+            } catch (error) {
+                console.error('[Debug] Error in custom updateUIForLoggedOutUser:', error);
+            }
+        }
+
+        // Preserve the original function
+        if (typeof window.updateUIForLoggedOutUser === 'function' && !window.originalUpdateUIForLoggedOutUser) {
+            console.log('[Debug] Preserving original updateUIForLoggedOutUser function');
+            window.originalUpdateUIForLoggedOutUser = window.updateUIForLoggedOutUser;
+            window.updateUIForLoggedOutUser = updateUIForLoggedOutUser;
+        }
+        
+        // Check authentication state when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Checking auth state on give-test page...');
+            
+            // If getCurrentUser function is available from auth.js
+            if (typeof getCurrentUser === 'function') {
+                const currentUser = getCurrentUser();
+                if (currentUser) {
+                    console.log('User is logged in:', currentUser);
+                    // Update UI elements for logged in state
+                    updateUIForLoggedInUser(currentUser);
+                    
+                    // Load available tests from database
+                    await loadAvailableTests();
+                    
+                    // Load user's test history
+                    await loadUserTestHistory(currentUser.id);
+                } else {
+                    console.log('No user logged in');
+                    // Update UI elements for logged out state
+                    updateUIForLoggedOutUser();
+                }
+            } else {
+                console.error('Auth functions not available');
+            }
+        });
+
+        // Function to load available tests from database
+        async function loadAvailableTests() {
+            try {
+                console.log('[Debug] loadAvailableTests called');
+                
+                // Show loading state
+                const testsContainer = document.querySelector('.test-grid');
+                console.log('[Debug] testsContainer:', testsContainer);
+                
+                if (!testsContainer) {
+                    console.error('Error: Could not find the test grid container element with class .test-grid');
+                    
+                    // Try to find any container that might work
+                    const fallbackContainers = [
+                        document.querySelector('#available-tests'),
+                        document.querySelector('.test-cards-container'),
+                        document.querySelector('.test-content-wrapper')
+                    ];
+                    
+                    let foundContainer = null;
+                    fallbackContainers.forEach((container, index) => {
+                        console.log(`[Debug] Fallback container ${index}:`, container);
+                        if (container && !foundContainer) foundContainer = container;
+                    });
+                    
+                    if (foundContainer) {
+                        console.log('[Debug] Using fallback container:', foundContainer);
+                        foundContainer.innerHTML = '<div style="padding: 20px; text-align: center;">Error: Test grid container not found. Refreshing the page may help.</div>';
+                    }
+                    
+                    return;
+                }
+                
+                testsContainer.innerHTML = `
+                    <div class="loading-state" style="text-align: center; padding: 40px;">
+                        <div class="loader" style="
+                            width: 40px;
+                            height: 40px;
+                            border: 4px solid #f3f3f3;
+                            border-top: 4px solid #3498db;
+                            border-radius: 50%;
+                            animation: spin 1s linear infinite;
+                            margin: 0 auto 20px;
+                        "></div>
+                        <p>Loading available tests...</p>
+                    </div>
+                `;
+
+                // Add keyframe animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                // Initialize Supabase client if needed
+                if (typeof supabase === 'undefined') {
+                    console.log('Initializing Supabase client');
+                    const supabaseUrl = 'https://gsiytynzyccckzbzuxtc.supabase.co';
+                    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzaXl0eW56eWNjY2t6Ynp1eHRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNDQzNzQsImV4cCI6MjA2MDgyMDM3NH0.Ew5f9QmEX3EzrxhIqvvJ8o7pS0TNnCS0yegIoY-T40g';
+                    supabase = supabase.createClient(supabaseUrl, supabaseKey);
+                }
+
+                // Query public tests from database
+                const { data: tests, error } = await supabase
+                    .from('tests')
+                    .select(`
+                        id,
+                        title,
+                        description,
+                        subject,
+                        difficulty,
+                        time_limit,
+                        created_at,
+                        created_by
+                    `)
+                    .eq('is_public', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error fetching tests:', error);
+                    testsContainer.innerHTML = `
+                        <div class="error-state" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 40px; color: #e74c3c; margin-bottom: 20px;"></i>
+                            <p>Failed to load tests. Please try again later.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (!tests || tests.length === 0) {
+                    // Fall back to sample tests if no tests in database
+                    loadSampleTests();
+                    return;
+                }
+
+                // Generate test cards HTML
+                const testsHTML = tests.map(test => {
+                    // Convert database fields to UI format
+                    const difficulty = test.difficulty || 'medium';
+                    const difficultyClass = difficulty === 'easy' ? 'easy' : 
+                                          difficulty === 'hard' ? 'hard' : 'medium';
+                    
+                    const subject = test.subject || 'general';
+                    const dateCreated = new Date(test.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+
+                    return `
+                        <div class="test-card" data-subject="${subject}" data-difficulty="${difficulty}">
+                            <div class="test-card-body">
+                                <h3>${test.title}</h3>
+                                <div class="test-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Time</span>
+                                        <span class="info-value">${test.time_limit} mins</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Subject</span>
+                                        <span class="info-value">${subject.charAt(0).toUpperCase() + subject.slice(1)}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Created</span>
+                                        <span class="info-value">${dateCreated}</span>
+                                    </div>
+                                </div>
+                                <p class="test-description">${test.description || 'No description available.'}</p>
+                            </div>
+                            <div class="test-card-footer">
+                                <span class="difficulty ${difficultyClass}">${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
+                                <a href="test-page.html?id=${test.id}" class="btn-small btn-start-test" data-test-id="${test.id}">Start Test</a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                testsContainer.innerHTML = testsHTML;
+
+                // Re-attach event listeners
+                document.querySelectorAll('.btn-start-test').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A' && !e.target.href) {
+                            e.preventDefault();
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error('Exception loading tests:', error);
+                loadSampleTests(); // Fall back to sample tests
+            }
+        }
+
+        // Function to load sample test data for demonstration
+        function loadSampleTests() {
+            console.log('[Debug] loadSampleTests called');
+            
+            // Find the test grid container
+            const testsContainer = document.querySelector('.test-grid');
+            if (!testsContainer) {
+                console.error('[Debug] Test grid container not found');
+                
+                // Try to find alternative containers
+                const alternativeContainers = [
+                    document.querySelector('#available-tests'),
+                    document.querySelector('.test-content-wrapper')
+                ];
+                
+                let foundContainer = null;
+                for (const container of alternativeContainers) {
+                    if (container) {
+                        console.log('[Debug] Found alternative container:', container);
+                        foundContainer = container;
+                        break;
+                    }
+                }
+                
+                if (foundContainer) {
+                    // Create the grid if it doesn't exist
+                    let grid = foundContainer.querySelector('.test-grid');
+                    if (!grid) {
+                        console.log('[Debug] Creating new grid element');
+                        grid = document.createElement('div');
+                        grid.className = 'test-grid';
+                        foundContainer.appendChild(grid);
+                    }
+                    
+                    // Continue with the new grid
+                    return loadSampleTests();
+                } else {
+                    console.error('[Debug] No suitable container found for sample tests');
+                    return;
+                }
+            }
+            
+            console.log('[Debug] Found test grid container:', testsContainer);
+            
+            // Sample test data
+            const sampleTests = [
+                {
+                    id: 'math-basic-01',
+                title: 'Basic Mathematics',
+                    description: 'Fundamental concepts of mathematics including arithmetic, algebra, and geometry.',
+                subject: 'mathematics',
+                difficulty: 'easy',
+                timeLimit: 30,
+                    dateCreated: 'Apr 15, 2023'
+                },
+                {
+                    id: 'english-grammar-01',
+                    title: 'English Grammar',
+                    description: 'Test your knowledge of English grammar, punctuation, and vocabulary.',
+                    subject: 'english',
+                    difficulty: 'medium',
+                    timeLimit: 25,
+                    dateCreated: 'Apr 10, 2023'
+                },
+                {
+                    id: 'physics-mech-01',
+                title: 'Physics Mechanics',
+                    description: "Newton's laws and basic mechanics concepts including force, motion, and energy.",
+                subject: 'science',
+                    difficulty: 'hard',
+                    timeLimit: 40,
+                    dateCreated: 'Mar 28, 2023'
+                },
+                {
+                    id: 'history-world-01',
+                    title: 'World History',
+                    description: 'Key events and figures in world history from ancient civilizations to modern era.',
+                    subject: 'history',
+                difficulty: 'medium',
+                    timeLimit: 35,
+                    dateCreated: 'Mar 15, 2023'
+                },
+                {
+                    id: 'chem-organic-01',
+                    title: 'Organic Chemistry',
+                    description: 'Challenge yourself with complex organic chemistry concepts, reaction mechanisms, stereochemistry, and synthesis strategies.',
+                    subject: 'science',
+                    difficulty: 'hard',
+                    timeLimit: 40,
+                    dateCreated: 'Feb 15, 2023'
+                }
+            ];
+
+            // Generate test cards HTML
+            const testsHTML = sampleTests.map(test => {
+                const difficultyClass = test.difficulty === 'easy' ? 'easy' : 
+                                      test.difficulty === 'hard' ? 'hard' : 'medium';
+                
+                return `
+                    <div class="test-card" data-subject="${test.subject}" data-difficulty="${test.difficulty}">
+                        <div class="test-card-body">
+                            <h3>${test.title}</h3>
+                            <div class="test-info">
+                                <div class="info-item">
+                                    <span class="info-label">Time</span>
+                                    <span class="info-value">${test.timeLimit} mins</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Subject</span>
+                                    <span class="info-value">${test.subject.charAt(0).toUpperCase() + test.subject.slice(1)}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Created</span>
+                                    <span class="info-value">${test.dateCreated}</span>
+                                </div>
+                            </div>
+                            <p class="test-description">${test.description}</p>
+                        </div>
+                        <div class="test-card-footer">
+                            <span class="difficulty ${difficultyClass}">${test.difficulty.charAt(0).toUpperCase() + test.difficulty.slice(1)}</span>
+                            <a href="test-page.html?sampleId=${test.id}" class="btn-small btn-start-test" data-test-id="${test.id}">Start Test</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            testsContainer.innerHTML = testsHTML;
+
+            // Attach event listeners
+        document.querySelectorAll('.btn-start-test').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const testId = this.getAttribute('data-test-id');
+                    
+                    // Redirect directly to test page with the ID instead of using session storage
+                    window.location.href = 'test-page.html?id=' + testId;
+                });
+            });
+        }
+
+        // Function to load user's test history
+        async function loadUserTestHistory(userId) {
+            try {
+                const historyContainer = document.querySelector('.test-history-table tbody');
+                if (!historyContainer) return;
+
+                // Show loading state
+                historyContainer.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px;">
+                            <div class="loader" style="
+                                width: 30px;
+                                height: 30px;
+                                border: 3px solid #f3f3f3;
+                                border-top: 3px solid #3498db;
+                                border-radius: 50%;
+                                animation: spin 1s linear infinite;
+                                margin: 0 auto 10px;
+                            "></div>
+                            <p>Loading your test history...</p>
+                        </td>
+                    </tr>
+                `;
+
+                // Fetch user's test history
+                const result = await getUserTestHistory(userId);
+                
+                if (!result.success || !result.data || result.data.length === 0) {
+                    historyContainer.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 20px;">
+                                <p>You haven't taken any tests yet.</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Generate test history rows
+                const historyHTML = result.data.map(history => {
+                    const testDate = new Date(history.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    const minutes = Math.floor(history.time_taken / 60);
+                    const seconds = history.time_taken % 60;
+                    const timeTaken = `${minutes} min${minutes !== 1 ? 's' : ''}`;
+                    
+                    return `
+                        <tr>
+                            <td>${history.tests?.title || 'Unknown Test'}</td>
+                            <td>${testDate}</td>
+                            <td>${history.score}%</td>
+                            <td>${timeTaken}</td>
+                            <td>
+                                <a href="results.html?id=${history.id}" class="btn-small">View Results</a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                historyContainer.innerHTML = historyHTML;
+
+            } catch (error) {
+                console.error('Error loading test history:', error);
+                const historyContainer = document.querySelector('.test-history-table tbody');
+                if (historyContainer) {
+                    historyContainer.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 20px;">
+                                <p>Failed to load test history. Please try again later.</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // Handle search and filter functionality
+        const searchInput = document.querySelector('.search-box input');
+        const subjectFilter = document.querySelector('select[name="subject"]');
+        const difficultyFilter = document.querySelector('select[name="difficulty"]');
+
+        function filterTests() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedSubject = subjectFilter.value;
+            const selectedDifficulty = difficultyFilter.value;
+            const testCards = document.querySelectorAll('.test-card');
+
+            testCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const subject = card.getAttribute('data-subject');
+                const difficulty = card.getAttribute('data-difficulty');
+                
+                const matchesSearch = title.includes(searchTerm);
+                const matchesSubject = selectedSubject === 'all' || subject === selectedSubject;
+                const matchesDifficulty = selectedDifficulty === 'all' || difficulty === selectedDifficulty;
+                
+                card.style.display = matchesSearch && matchesSubject && matchesDifficulty ? 'block' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterTests);
+        subjectFilter.addEventListener('change', filterTests);
+        difficultyFilter.addEventListener('change', filterTests);
+
+        // Handle navigation between tabs
+        document.querySelectorAll('.test-sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.test-sidebar-nav a').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all tabs
+                document.querySelectorAll('.test-tab').forEach(tab => {
+                    tab.style.display = 'none';
+                });
+                
+                // Show target tab
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html> 

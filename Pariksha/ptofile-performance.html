@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="My Profile.css">   
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="css/performance.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar">
+            <span class="material-symbols-rounded menu-icon" p="Close sidebar">menu</span>
+
+            <div class="profile-header">
+                <img src="Prashant Photo.png" alt="Profile" class="profile-mini">
+                <div class="profile-info">
+                    <h3>Prashant Ray</h3>
+                    <p>rayprashant2005@gmail.com</p>
+                </div>
+            </div>
+
+            <nav class="navigation">
+                <div class="nav-section">
+                    <h4 class="dropdown-header">Navigate <span class="material-symbols-rounded">keyboard_arrow_down</span></h4>
+                    <ul class="dropdown-content">
+                        <a href="dashboard.html" class="nav-item" p="Dashboard">
+                            <span class="material-symbols-rounded">dashboard</span>
+                            <span>Dashboard</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a href="My Profile.html" class="nav-item" p="My Profile">
+                            <span class="material-symbols-rounded">group</span>
+                            <span>My Profile</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a href="test-history.html" class="nav-item" p="Test History">
+                            <span class="material-symbols-rounded">history</span>
+                            <span>Test History</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a href="my-created-test.html" class="nav-item" p="My Tests">
+                            <span class="material-symbols-rounded">docs</span>
+                            <span>My Created Tests</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a href="bookmarked-questions.html" class="nav-item" p="Bookmarked Questions">
+                            <span class="material-symbols-rounded">bookmarks</span>
+                            <span>Bookmarked Questions</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a href="#" class="nav-item active" p="Performance">
+                            <span class="material-symbols-rounded">monitoring</span>
+                            <span>Performance</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>                        
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <h4 class="dropdown-header">More <span class="material-symbols-rounded">keyboard_arrow_down</span></h4>
+                    <ul class="dropdown-content">
+                        <a class="nav-item" p="Settings">
+                            <span class="material-symbols-rounded">settings</span>
+                            <span>Settings</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a class="nav-item" p="Language">
+                            <span class="material-symbols-rounded">language</span>
+                            <span>Language</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a class="nav-item" p="Dark Mode">
+                            <span class="material-symbols-rounded">dark_mode</span>
+                            <span>Dark Mode</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </a>
+                        <a class="nav-item" p="Help Center">
+                            <span class="material-symbols-rounded">question_mark</span>
+                            <span>Help Center</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                        <a class="nav-item" p="Support">
+                            <span class="material-symbols-rounded">forum</span>
+                            <span>Support</span>
+                            <span class="material-symbols-rounded right-arrow-icon">keyboard_arrow_right</span>
+                        </a>
+                    </ul>
+                </div>                
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="profile-Container">
+                <header class="Content-header">
+                    <div class="profile-icon">
+                        <span class="material-symbols-rounded profile-logo">monitoring</span>
+                        <h2>Performance</h2>                   
+                    </div>
+                    <button class="logout-btn">
+                        <span class="material-symbols-rounded logout-icon">
+                            logout
+                        </span>
+                        <p>Log out</p>
+                    </button>
+                </header>
+            
+            <div class="profile-bottom-container">        
+                    <div class="performance-header">
+                        <h1>Performance Analysis</h1>
+                        <div class="time-filter">
+                            <select id="timeRange">
+                                <option value="all">All Time</option>
+                                <option value="year">Last Year</option>
+                                <option value="month">Last Month</option>
+                                <option value="week">Last Week</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <!-- Overall Stats -->
+                    <section class="overall-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Average Score</h3>
+                                <p class="stat-value">85%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Time</h3>
+                                <p class="stat-value">48h 30m</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Tests Taken</h3>
+                                <p class="stat-value">42</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Ranking</h3>
+                                <p class="stat-value">#8</p>
+                            </div>
+                        </div>
+                    </section>
+            
+                    <!-- Subject Performance -->
+                    <section class="subject-performance">
+                        <h2><i class="fas fa-book"></i> Subject-wise Performance</h2>
+                        <div class="subject-grid">
+                            <!-- Mathematics -->
+                            <div class="subject-card" data-subject="mathematics">
+                                <div class="subject-header">
+                                    <h3>Mathematics</h3>
+                                    <span class="score">92%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 92%"></div>
+                                </div>
+                                <div class="subject-stats">
+                                    <div class="stat">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span class="label">Tests</span>
+                                        <span class="value" data-stat="tests">15</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="label">Time</span>
+                                        <span class="value" data-stat="time">12h</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-ranking-star"></i>
+                                        <span class="label">Rank</span>
+                                        <span class="value" data-stat="rank">#3</span>
+                                    </div>
+                                </div>
+                                <div class="topic-breakdown">
+                                    <h4>Topic Breakdown</h4>
+                                    <div class="topic" data-topic="algebra">
+                                        <span><i class="fas fa-square-root-alt"></i> Algebra</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 95%"></div>
+                                        </div>
+                                        <span>95%</span>
+                                    </div>
+                                    <div class="topic" data-topic="geometry">
+                                        <span><i class="fas fa-shapes"></i> Geometry</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 88%"></div>
+                                        </div>
+                                        <span>88%</span>
+                                    </div>
+                                    <div class="topic" data-topic="calculus">
+                                        <span><i class="fas fa-infinity"></i> Calculus</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 90%"></div>
+                                        </div>
+                                        <span>90%</span>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Physics -->
+                            <div class="subject-card" data-subject="physics">
+                                <div class="subject-header">
+                                    <h3>Physics</h3>
+                                    <span class="score">85%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 85%"></div>
+                                </div>
+                                <div class="subject-stats">
+                                    <div class="stat">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span class="label">Tests</span>
+                                        <span class="value" data-stat="tests">12</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="label">Time</span>
+                                        <span class="value" data-stat="time">10h</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-ranking-star"></i>
+                                        <span class="label">Rank</span>
+                                        <span class="value" data-stat="rank">#5</span>
+                                    </div>
+                                </div>
+                                <div class="topic-breakdown">
+                                    <h4>Topic Breakdown</h4>
+                                    <div class="topic" data-topic="mechanics">
+                                        <span><i class="fas fa-cog"></i> Mechanics</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 87%"></div>
+                                        </div>
+                                        <span>87%</span>
+                                    </div>
+                                    <div class="topic" data-topic="thermodynamics">
+                                        <span><i class="fas fa-temperature-high"></i> Thermodynamics</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 82%"></div>
+                                        </div>
+                                        <span>82%</span>
+                                    </div>
+                                    <div class="topic" data-topic="electromagnetism">
+                                        <span><i class="fas fa-bolt"></i> Electromagnetism</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 85%"></div>
+                                        </div>
+                                        <span>85%</span>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Chemistry -->
+                            <div class="subject-card" data-subject="chemistry">
+                                <div class="subject-header">
+                                    <h3>Chemistry</h3>
+                                    <span class="score">78%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 78%"></div>
+                                </div>
+                                <div class="subject-stats">
+                                    <div class="stat">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span class="label">Tests</span>
+                                        <span class="value" data-stat="tests">10</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="label">Time</span>
+                                        <span class="value" data-stat="time">8h</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-ranking-star"></i>
+                                        <span class="label">Rank</span>
+                                        <span class="value" data-stat="rank">#12</span>
+                                    </div>
+                                </div>
+                                <div class="topic-breakdown">
+                                    <h4>Topic Breakdown</h4>
+                                    <div class="topic" data-topic="organic">
+                                        <span><i class="fas fa-atom"></i> Organic</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 75%"></div>
+                                        </div>
+                                        <span>75%</span>
+                                    </div>
+                                    <div class="topic" data-topic="inorganic">
+                                        <span><i class="fas fa-flask"></i> Inorganic</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 80%"></div>
+                                        </div>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="topic" data-topic="physical">
+                                        <span><i class="fas fa-vial"></i> Physical</span>
+                                        <div class="topic-progress">
+                                            <div class="progress" style="width: 78%"></div>
+                                        </div>
+                                        <span>78%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            
+                    <!-- Performance Trends -->
+                    <section class="performance-trends">
+                        <h2><i class="fas fa-chart-line"></i> Performance Trends</h2>
+                        <div class="trend-chart">
+                            <div class="chart-container">
+                                <div class="chart-placeholder">
+                                    <div class="grid-lines">
+                                        <div class="grid-line"></div>
+                                        <div class="grid-line"></div>
+                                        <div class="grid-line"></div>
+                                        <div class="grid-line"></div>
+                                    </div>
+                                    <div class="graph-line">
+                                        <svg>
+                                            <path d="M 10% 30% L 25% 15% L 40% 25% L 55% 10% L 70% 18% L 85% 12%"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="line-graph" id="performanceGraph">
+                                        <!-- Graph points will be dynamically added by JavaScript -->
+                                        <div class="graph-point" style="--x: 10%; --y: 70%">
+                                            <div class="graph-tooltip">Week 1: 70%</div>
+                                        </div>
+                                        <div class="graph-point" style="--x: 25%; --y: 85%">
+                                            <div class="graph-tooltip">Week 2: 85%</div>
+                                        </div>
+                                        <div class="graph-point" style="--x: 40%; --y: 75%">
+                                            <div class="graph-tooltip">Week 3: 75%</div>
+                                        </div>
+                                        <div class="graph-point" style="--x: 55%; --y: 90%">
+                                            <div class="graph-tooltip">Week 4: 90%</div>
+                                        </div>
+                                        <div class="graph-point" style="--x: 70%; --y: 82%">
+                                            <div class="graph-tooltip">Week 5: 82%</div>
+                                        </div>
+                                        <div class="graph-point" style="--x: 85%; --y: 88%">
+                                            <div class="graph-tooltip">Week 6: 88%</div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            
+                    <!-- Improvement Areas -->
+                    <section class="improvement-areas">
+                        <h2><i class="fas fa-bullseye"></i> Suggested Improvement Areas</h2>
+                        <div class="improvement-grid">
+                            <div class="improvement-card">
+                                <div class="improvement-icon">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="improvement-content">
+                                    <h3>Organic Chemistry</h3>
+                                    <p>Focus on reaction mechanisms and nomenclature</p>
+                                    <div class="action-buttons">
+                                        <button class="practice-btn">Practice Now</button>
+                                        <button class="resources-btn">View Resources</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="improvement-card">
+                                <div class="improvement-icon">
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <div class="improvement-content">
+                                    <h3>Wave Optics</h3>
+                                    <p>Review interference and diffraction concepts</p>
+                                    <div class="action-buttons">
+                                        <button class="practice-btn">Practice Now</button>
+                                        <button class="resources-btn">View Resources</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="improvement-card">
+                                <div class="improvement-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <div class="improvement-content">
+                                    <h3>Integration</h3>
+                                    <p>Practice more complex integration problems</p>
+                                    <div class="action-buttons">
+                                        <button class="practice-btn">Practice Now</button>
+                                        <button class="resources-btn">View Resources</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>                        
+        </main>
+    </div>
+   
+    <!-- Load scripts at the end of body -->
+    <script src="Profile.js"></script>
+    <script src="js/performance.js"></script>
+</body>
+</html>

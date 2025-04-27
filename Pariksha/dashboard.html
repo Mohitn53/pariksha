@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PARIKSHA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="test-utils.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>PARIKSHA</h1>            
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="Pariksha Home Page.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Tests <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="give-test.html">Give Test</a></li>
+                        <li><a href="create-test.html">Create Test</a></li>
+                        <li><a href="generate-test.html">Generate Test</a></li>
+                    </ul>
+                </li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+
+                <div class="profile-menu">
+                    <div class="profile-group">
+                        <button id="profile-btn" aria-label="Profile menu">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <i class="fas fa-chevron-down down-arrow"></i>
+                    </div>                    
+                    <div class="profile-dropdown">
+                        <ul>
+                            <li><a href="My Profile.html">My Profile</a></li>
+                            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                            <li><button onclick="logout()">Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </ul>            
+        </nav>        
+    </header>
+
+    <main class="dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h3 id="user-name">Loading...</h3>
+                <p id="user-email">Loading...</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#overview"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+                <li><a href="#test-history"><i class="fas fa-history"></i> Test History</a></li>
+                <li><a href="#performance"><i class="fas fa-chart-line"></i> Performance</a></li>
+                <li><a href="#created-tests"><i class="fas fa-file-alt"></i> Created Tests</a></li>
+            </ul>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="overview-stats">
+            <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                <h3 id="tests-taken">0</h3>
+                <p>Tests Taken</p>
+                        </div>
+            </div>
+            <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                <h3 id="avg-score">0%</h3>
+                <p>Average Score</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="avg-time">0 sec</h3>
+                            <p>Avg. Time per Question</p>
+                        </div>
+            </div>
+            <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                <h3 id="rank">-</h3>
+                            <p>Rank</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Progress Over Time</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="progress-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Subject Performance</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="subjects-chart"></canvas>
+                        </div>
+            </div>
+        </div>
+
+        <div class="recent-tests">
+                    <h3>Recent Tests</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Test Name</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Score</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-tests-table">
+                                <tr>
+                                    <td colspan="5" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Test History Section -->
+            <section id="test-history" class="dashboard-section">
+                <h2>Test History</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="subject-filter">Subject:</label>
+                        <select id="subject-filter">
+                            <option value="all">All Subjects</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="date-filter">Date Range:</label>
+                        <select id="date-filter">
+                            <option value="all">All Time</option>
+                            <option value="month">Last Month</option>
+                            <option value="week">Last Week</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-filter">Sort By:</label>
+                        <select id="sort-filter">
+                            <option value="date">Date (Newest)</option>
+                            <option value="score">Score (Highest)</option>
+                        </select>
+                    </div>
+        </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test Name</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Time Taken</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="test-history-table">
+                            <tr>
+                                <td colspan="6" class="text-center">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+            </section>
+
+            <!-- Performance Section -->
+            <section id="performance" class="dashboard-section">
+                <h2>Performance Analytics</h2>
+                
+                <div class="charts-container">
+                    <div class="chart-card full-width">
+                        <h3>Score Trends</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="score-trends-chart"></canvas>
+            </div>
+        </div>
+    </div>
+                
+                <div class="analytics-cards">
+                    <div class="analytics-card">
+                        <h3>Subject Breakdown</h3>
+                        <div class="table-responsive">
+                            <table id="subject-breakdown">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Tests Taken</th>
+                                        <th>Avg. Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Strengths & Weaknesses</h3>
+                        <div id="strengths-weaknesses">
+                            <div class="loading">Loading analysis...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other sections can be added as needed -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2023 PARIKSHA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'Login Page.html';
+                return;
+            }
+            
+            // Update user info
+            document.getElementById('user-name').textContent = currentUser.fullName || currentUser.email;
+            document.getElementById('user-email').textContent = currentUser.email;
+
+            // Show loading states
+            showLoadingStates();
+
+            // Load analytics data
+            try {
+                console.log('Loading analytics data for user:', currentUser.id);
+                const analyticsResult = await getUserPerformanceAnalytics(currentUser.id);
+                if (analyticsResult.success) {
+                    console.log('Successfully loaded analytics:', analyticsResult.data);
+                    updateDashboardAnalytics(analyticsResult.data);
+                } else {
+                    console.error('Error loading analytics:', analyticsResult.error);
+                    showError('analytics-error', 'Failed to load analytics data. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Exception loading analytics:', error);
+                showError('analytics-error', 'An unexpected error occurred while loading analytics.');
+            }
+
+            // Load test history
+            try {
+                console.log('Loading test history for user:', currentUser.id);
+                const historyResult = await getUserTestHistory(currentUser.id);
+                if (historyResult.success) {
+                    console.log('Successfully loaded test history:', historyResult.data);
+                    
+                    // Store test history globally for filtering
+                    window.testHistoryData = historyResult.data;
+                    
+                    // Initial update with all data
+                    updateTestHistory(historyResult.data);
+                    
+                    // Set up filters after data is loaded
+                    setupFilters(historyResult.data);
+                } else {
+                    console.error('Error loading test history:', historyResult.error);
+                    showError('history-error', 'Failed to load test history. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error loading test history:', error);
+                showError('history-error', 'An unexpected error occurred while loading test history.');
+            }
+
+            // Set up navigation
+            setupNavigation();
+            
+            // Set up search and filter functionality
+            setupSearchAndFilters();
+        });
+        
+        // Show loading states for all dashboard sections
+        function showLoadingStates() {
+            const loadingTemplate = `
+                <div class="loading-indicator">
+                    <div class="spinner"></div>
+                    <p>Loading data...</p>
+                </div>
+            `;
+            
+            // Add loading state to charts and ensure canvas elements exist
+            document.querySelectorAll('.chart-wrapper').forEach(chart => {
+                // Create a canvas element for each chart
+                const canvasId = chart.querySelector('canvas')?.id || '';
+                chart.innerHTML = `
+                    <canvas id="${canvasId}"></canvas>
+                    ${loadingTemplate}
+                `;
+            });
+            
+            // Add loading state to tables
+            document.getElementById('recent-tests-table').innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center">${loadingTemplate}</td>
+                </tr>
+            `;
+            
+            document.getElementById('test-history-table').innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center">${loadingTemplate}</td>
+                </tr>
+            `;
+            
+            // Add loading state to subject breakdown
+            document.getElementById('subject-breakdown').querySelector('tbody').innerHTML = `
+                <tr>
+                    <td colspan="3" class="text-center">${loadingTemplate}</td>
+                </tr>
+            `;
+            
+            // Add loading state to strengths & weaknesses
+            document.getElementById('strengths-weaknesses').innerHTML = loadingTemplate;
+            
+            // Add loading animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                .loading-indicator {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(255,255,255,0.8);
+                    z-index: 5;
+                }
+                
+                .chart-wrapper {
+                    position: relative;
+                    min-height: 250px;
+                }
+                
+                .chart-wrapper canvas {
+                    position: relative;
+                    z-index: 1;
+                }
+                
+                .spinner {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid rgba(0, 0, 0, 0.1);
+                    border-left-color: #4CAF50;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin-bottom: 10px;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Ensure canvas elements are created for charts
+            const createCanvasIfNeeded = (chartId) => {
+                const wrapper = document.getElementById(chartId)?.closest('.chart-wrapper');
+                if (wrapper) {
+                    if (!document.getElementById(chartId)) {
+                        const canvas = document.createElement('canvas');
+                        canvas.id = chartId;
+                        wrapper.insertBefore(canvas, wrapper.firstChild);
+                    }
+                    return true;
+                }
+                return false;
+            };
+            
+            // Initialize canvas elements for each chart
+            createCanvasIfNeeded('progress-chart');
+            createCanvasIfNeeded('subjects-chart');
+            createCanvasIfNeeded('score-trends-chart');
+        }
+        
+        // Show error message in a specific section
+        function showError(elementId, message) {
+            const errorTemplate = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>${message}</p>
+                    <button class="retry-button">Retry</button>
+                </div>
+            `;
+            
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = errorTemplate;
+                
+                // Add retry functionality
+                const retryButton = element.querySelector('.retry-button');
+                if (retryButton) {
+                    retryButton.addEventListener('click', function() {
+                        window.location.reload();
+                    });
+                }
+            } else {
+                // Create an error notification if the element doesn't exist
+                const notification = document.createElement('div');
+                notification.className = 'error-notification';
+                notification.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>${message}</p>
+                    <button class="close-button"><i class="fas fa-times"></i></button>
+                `;
+                document.body.appendChild(notification);
+                
+                // Add close functionality
+                const closeButton = notification.querySelector('.close-button');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        notification.remove();
+                    });
+                }
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+        }
+
+        // Set up navigation functionality
+        function setupNavigation() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            const sections = document.querySelectorAll('.dashboard-section');
+            
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and list items
+                    sidebarLinks.forEach(l => l.parentElement.classList.remove('active'));
+                    
+                    // Add active class to clicked link's parent li
+                    this.parentElement.classList.add('active');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Save current tab to localStorage
+                    localStorage.setItem('activeTab', targetId);
+                });
+            });
+            
+            // Check if there's a saved tab
+            const savedTab = localStorage.getItem('activeTab');
+            if (savedTab) {
+                const savedTabLink = document.querySelector(`.sidebar-menu a[href="#${savedTab}"]`);
+                if (savedTabLink) {
+                    savedTabLink.click();
+                }
+            }
+        }
+        
+        // Set up search and filter functionality
+        function setupSearchAndFilters() {
+            // Search functionality for test history
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Search tests...';
+            searchInput.className = 'search-input';
+            
+            // Insert before the filters
+            const filtersDiv = document.querySelector('#test-history .filters');
+            if (filtersDiv) {
+                filtersDiv.parentNode.insertBefore(searchInput, filtersDiv);
+                
+                // Add search event listener
+                searchInput.addEventListener('input', function() {
+                    applyFilters();
+                });
+            }
+            
+            // Setup date filter change handler
+            const dateFilter = document.getElementById('date-filter');
+            if (dateFilter) {
+                dateFilter.addEventListener('change', applyFilters);
+            }
+            
+            // Setup subject filter change handler
+            const subjectFilter = document.getElementById('subject-filter');
+            if (subjectFilter) {
+                subjectFilter.addEventListener('change', applyFilters);
+            }
+            
+            // Setup sort filter change handler
+            const sortFilter = document.getElementById('sort-filter');
+            if (sortFilter) {
+                sortFilter.addEventListener('change', applyFilters);
+            }
+        }
+        
+        // Setup filter options based on available data
+        function setupFilters(testHistory) {
+            // Get unique subjects
+            const subjects = [...new Set(testHistory
+                .map(test => test.tests?.subject)
+                .filter(Boolean))];
+                
+            // Populate subject filter
+            const subjectFilter = document.getElementById('subject-filter');
+            if (subjectFilter) {
+                // Clear existing options except the first one
+                while (subjectFilter.options.length > 1) {
+                    subjectFilter.remove(1);
+                }
+                
+                // Add new options
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject.charAt(0).toUpperCase() + subject.slice(1);
+                    subjectFilter.appendChild(option);
+                });
+            }
+        }
+        
+        // Apply filters to test history data
+        function applyFilters() {
+            // Get filter values
+            const searchTerm = document.querySelector('.search-input')?.value.toLowerCase() || '';
+            const dateFilter = document.getElementById('date-filter').value;
+            const subjectFilter = document.getElementById('subject-filter').value;
+            const sortFilter = document.getElementById('sort-filter').value;
+            
+            // Get the original data
+            const testHistory = window.testHistoryData || [];
+            
+            // Apply filters
+            let filteredData = testHistory.filter(test => {
+                // Search filter
+                const testName = test.tests?.title?.toLowerCase() || '';
+                if (searchTerm && !testName.includes(searchTerm)) {
+                    return false;
+                }
+                
+                // Subject filter
+                if (subjectFilter !== 'all') {
+                    const testSubject = test.tests?.subject || '';
+                    if (testSubject !== subjectFilter) {
+                        return false;
+                    }
+                }
+                
+                // Date filter
+                if (dateFilter !== 'all') {
+                    const testDate = new Date(test.created_at);
+                    const now = new Date();
+                    
+                    if (dateFilter === 'month') {
+                        // Filter for last month
+                        const oneMonthAgo = new Date();
+                        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+                        if (testDate < oneMonthAgo) {
+                            return false;
+                        }
+                    } else if (dateFilter === 'week') {
+                        // Filter for last week
+                        const oneWeekAgo = new Date();
+                        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                        if (testDate < oneWeekAgo) {
+                            return false;
+                        }
+                    }
+                }
+                
+                return true;
+            });
+            
+            // Apply sorting
+            if (sortFilter === 'date') {
+                filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            } else if (sortFilter === 'score') {
+                filteredData.sort((a, b) => b.score - a.score);
+            }
+            
+            // Update the table with filtered data
+            updateTestHistory(filteredData);
+            
+            // Update filter counts
+            updateFilterCounts(filteredData.length, testHistory.length);
+        }
+        
+        // Update filter count display
+        function updateFilterCounts(filteredCount, totalCount) {
+            // Create or update the count display
+            let countDisplay = document.getElementById('filter-count');
+            if (!countDisplay) {
+                countDisplay = document.createElement('div');
+                countDisplay.id = 'filter-count';
+                countDisplay.className = 'filter-count';
+                const filtersDiv = document.querySelector('#test-history .filters');
+                if (filtersDiv) {
+                    filtersDiv.after(countDisplay);
+                }
+            }
+            
+            countDisplay.textContent = `Showing ${filteredCount} of ${totalCount} tests`;
+        }
+
+        // Update dashboard with analytics data
+        function updateDashboardAnalytics(analytics) {
+                // Update stats
+            document.getElementById('tests-taken').textContent = analytics.totalTestsTaken;
+            document.getElementById('avg-score').textContent = `${analytics.averageScore}%`;
+            document.getElementById('avg-time').textContent = `${analytics.averageTimePerQuestion} sec`;
+            
+            // Ensure canvas elements exist for charts
+            const ensureCanvas = (chartId) => {
+                const wrapper = document.querySelector(`#${chartId}`).closest('.chart-wrapper');
+                if (wrapper) {
+                    // Remove loading indicator
+                    const loadingIndicator = wrapper.querySelector('.loading-indicator');
+                    if (loadingIndicator) {
+                        loadingIndicator.remove();
+                    }
+                    
+                    // Ensure canvas exists
+                    if (!document.getElementById(chartId)) {
+                        const canvas = document.createElement('canvas');
+                        canvas.id = chartId;
+                        wrapper.insertBefore(canvas, wrapper.firstChild);
+                    }
+                    return true;
+                }
+                return false;
+            };
+            
+            // Create progress chart
+            if (analytics.progressOverTime.length > 0) {
+                // Ensure canvas exists
+                if (ensureCanvas('progress-chart')) {
+                    const progressChartElement = document.getElementById('progress-chart');
+                    
+                    if (progressChartElement) {
+                        try {
+                            const progressCtx = progressChartElement.getContext('2d');
+                            if (progressCtx) {
+                                const progressData = analytics.progressOverTime;
+                                
+                                // Clear previous chart instance if exists
+                                if (window.progressChart instanceof Chart) {
+                                    window.progressChart.destroy();
+                                }
+                                
+                                window.progressChart = new Chart(progressCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: progressData.map(item => item.date),
+                                        datasets: [{
+                                            label: 'Score',
+                                            data: progressData.map(item => item.score),
+                                            borderColor: '#4CAF50',
+                                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                                            tension: 0.3,
+                                            fill: true,
+                                            pointBackgroundColor: '#2E7D32',
+                                            pointRadius: 5,
+                                            pointHoverRadius: 7
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        interaction: {
+                                            mode: 'index',
+                                            intersect: false
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                display: false
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                                padding: 10,
+                                                bodyFont: {
+                                                    size: 14
+                                                },
+                                                callbacks: {
+                                                    label: function(context) {
+                                                        return `Score: ${context.raw}%`;
+                                                    },
+                                                    afterLabel: function(context) {
+                                                        const dataIndex = context.dataIndex;
+                                                        const subject = progressData[dataIndex]?.subject;
+                                                        return subject ? `Subject: ${subject}` : '';
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                max: 100,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Score (%)',
+                                                    font: {
+                                                        weight: 'bold'
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(0, 0, 0, 0.05)'
+                                                }
+                                            },
+                                            x: {
+                                                grid: {
+                                                    color: 'rgba(0, 0, 0, 0.05)'
+                                                }
+                                            }
+                                        },
+                                        animations: {
+                                            tension: {
+                                                duration: 1000,
+                                                easing: 'linear'
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                console.error('Could not get 2D context for progress chart');
+                            }
+                        } catch (error) {
+                            console.error('Error rendering progress chart:', error);
+                        }
+                    } else {
+                        console.error('Progress chart element not found');
+                    }
+                }
+            } else {
+                // No data available
+                const progressWrapper = document.querySelector('#progress-chart').closest('.chart-wrapper');
+                if (progressWrapper) {
+                    progressWrapper.innerHTML = `
+                        <div class="no-data-message">
+                            <i class="fas fa-chart-line"></i>
+                            <p>No progress data available yet. Take more tests to see your progress!</p>
+                            </div>
+                    `;
+                }
+            }
+
+            // Create subjects chart
+            if (Object.keys(analytics.subjectPerformance).length > 0) {
+                // Ensure canvas exists
+                if (ensureCanvas('subjects-chart')) {
+                    const subjectsChartElement = document.getElementById('subjects-chart');
+                    
+                    if (subjectsChartElement) {
+                        try {
+                            const subjectsCtx = subjectsChartElement.getContext('2d');
+                            if (subjectsCtx) {
+                                const subjectLabels = Object.keys(analytics.subjectPerformance);
+                                const subjectScores = subjectLabels.map(subject => 
+                                    analytics.subjectPerformance[subject].averageScore
+                                );
+                                const subjectCounts = subjectLabels.map(subject => 
+                                    analytics.subjectPerformance[subject].testsTaken
+                                );
+                                
+                                // Create a color palette
+                                const colorPalette = ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#E91E63', '#3F51B5', '#009688'];
+                                const backgroundColors = subjectLabels.map((_, index) => colorPalette[index % colorPalette.length]);
+                                
+                                // Clear previous chart instance if exists
+                                if (window.subjectsChart instanceof Chart) {
+                                    window.subjectsChart.destroy();
+                                }
+                                
+                                window.subjectsChart = new Chart(subjectsCtx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: subjectLabels,
+                                        datasets: [{
+                                            label: 'Average Score',
+                                            data: subjectScores,
+                                            backgroundColor: backgroundColors,
+                                            borderColor: backgroundColors.map(color => color.replace(')', ', 0.8)')),
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: {
+                                                display: false
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                                padding: 10,
+                                                bodyFont: {
+                                                    size: 14
+                                                },
+                                                callbacks: {
+                                                    label: function(context) {
+                                                        const label = context.dataset.label || '';
+                                                        const value = context.raw || 0;
+                                                        const count = subjectCounts[context.dataIndex];
+                                                        return [`${label}: ${value}%`, `Tests taken: ${count}`];
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                max: 100,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Score (%)',
+                                                    font: {
+                                                        weight: 'bold'
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(0, 0, 0, 0.05)'
+                                                }
+                                            },
+                                            x: {
+                                                grid: {
+                                                    display: false
+                                                }
+                                            }
+                                        },
+                                        animations: {
+                                            y: {
+                                                duration: 1000,
+                                                easing: 'easeOutCubic'
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                console.error('Could not get 2D context for subjects chart');
+                            }
+                        } catch (error) {
+                            console.error('Error rendering subjects chart:', error);
+                        }
+                    } else {
+                        console.error('Subjects chart element not found');
+                    }
+                }
+                } else {
+                // No data available
+                const subjectsWrapper = document.querySelector('#subjects-chart').closest('.chart-wrapper');
+                if (subjectsWrapper) {
+                    subjectsWrapper.innerHTML = `
+                        <div class="no-data-message">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>No subject data available yet. Take tests in different subjects to see your performance!</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // Update performance section tables
+            updateSubjectBreakdown(analytics.subjectPerformance);
+        }
+
+        // Update test history table
+        function updateTestHistory(testHistory) {
+            const recentTestsTable = document.getElementById('recent-tests-table');
+            const historyTable = document.getElementById('test-history-table');
+            
+            if (testHistory.length === 0) {
+                const noDataTemplate = `
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <div class="no-data-message">
+                                <i class="fas fa-clipboard-list"></i>
+                                <p>No test history found</p>
+                                <a href="give-test.html" class="dashboard-button">Take Your First Test</a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                if (recentTestsTable) recentTestsTable.innerHTML = noDataTemplate;
+                if (historyTable) historyTable.innerHTML = noDataTemplate.replace('colspan="5"', 'colspan="6"');
+                return;
+            }
+
+            // Update recent tests (show max 5)
+            if (recentTestsTable) {
+                const recentTests = testHistory.slice(0, 5);
+                recentTestsTable.innerHTML = recentTests.map(test => `
+                    <tr>
+                        <td>${test.tests?.title || 'Unknown Test'}</td>
+                        <td>${test.tests?.subject ? `<span class="subject-tag">${test.tests.subject}</span>` : 'Unknown'}</td>
+                        <td>${new Date(test.created_at).toLocaleDateString()}</td>
+                        <td><span class="score-badge ${getScoreClass(test.score)}">${test.score}%</span></td>
+                        <td>
+                            <a href="results.html?id=${test.id}" class="dashboard-button view-button">View</a>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            
+            // Update full history table
+            if (historyTable) {
+                historyTable.innerHTML = testHistory.map(test => {
+                    // Format time taken
+                    const minutes = Math.floor(test.time_taken / 60);
+                    const seconds = test.time_taken % 60;
+                    const timeFormatted = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    return `
+                        <tr>
+                            <td>${test.tests?.title || 'Unknown Test'}</td>
+                            <td>${test.tests?.subject ? `<span class="subject-tag">${test.tests.subject}</span>` : 'Unknown'}</td>
+                            <td>${new Date(test.created_at).toLocaleDateString()}</td>
+                            <td><span class="score-badge ${getScoreClass(test.score)}">${test.score}%</span></td>
+                            <td>${timeFormatted}</td>
+                            <td>
+                                <a href="results.html?id=${test.id}" class="dashboard-button view-button">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+            
+            // Add styles for badges
+            const style = document.createElement('style');
+            style.textContent = `
+                .score-badge {
+                    display: inline-block;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    color: white;
+                }
+                
+                .score-excellent {
+                    background-color: #4CAF50;
+                }
+                
+                .score-good {
+                    background-color: #8BC34A;
+                }
+                
+                .score-average {
+                    background-color: #FFC107;
+                }
+                
+                .score-poor {
+                    background-color: #FF5722;
+                }
+                
+                .subject-tag {
+                    display: inline-block;
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    background-color: #e9ecef;
+                    font-size: 0.85rem;
+                    color: #495057;
+                }
+                
+                .no-data-message {
+                    text-align: center;
+                    padding: 2rem;
+                }
+                
+                .no-data-message i {
+                    font-size: 2.5rem;
+                    color: #ccc;
+                    margin-bottom: 1rem;
+                }
+                
+                .no-data-message p {
+                    color: #666;
+                    margin-bottom: 1rem;
+                }
+                
+                .filter-count {
+                    margin: 10px 0;
+                    font-size: 0.9rem;
+                    color: #666;
+                }
+                
+                .dashboard-button {
+                    display: inline-block;
+                    padding: 6px 12px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+                }
+                
+                .dashboard-button:hover {
+                    background-color: #388E3C;
+                    text-decoration: none;
+                    color: white;
+                }
+                
+                .view-button {
+                    padding: 4px 8px;
+                    font-size: 0.9rem;
+                }
+                
+                .search-input {
+                    width: 100%;
+                    padding: 8px 12px;
+                    margin-bottom: 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 1rem;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Update subject breakdown table
+        function updateSubjectBreakdown(subjectPerformance) {
+            const table = document.getElementById('subject-breakdown').querySelector('tbody');
+            const subjects = Object.keys(subjectPerformance);
+            
+            if (subjects.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <div class="no-data-message">
+                                <i class="fas fa-book"></i>
+                                <p>No data available</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            table.innerHTML = subjects.map(subject => `
+                <tr>
+                    <td>${subject}</td>
+                    <td>${subjectPerformance[subject].testsTaken}</td>
+                    <td><span class="score-badge ${getScoreClass(subjectPerformance[subject].averageScore)}">${subjectPerformance[subject].averageScore}%</span></td>
+                </tr>
+            `).join('');
+            
+            // Also update strengths and weaknesses
+            const strengthsElement = document.getElementById('strengths-weaknesses');
+            
+            // Sort subjects by score
+            const sortedSubjects = [...subjects].sort((a, b) => 
+                subjectPerformance[b].averageScore - subjectPerformance[a].averageScore
+            );
+            
+            const strengths = sortedSubjects.slice(0, 2);
+            const weaknesses = sortedSubjects.slice(-2).reverse();
+            
+            let content = '<div class="strengths-weaknesses-container">';
+            
+            // Add strengths
+            content += '<div class="strengths">';
+            content += '<h4><i class="fas fa-arrow-up"></i> Strengths</h4>';
+            content += '<ul>';
+            
+            if (strengths.length > 0) {
+                strengths.forEach(subject => {
+                    content += `<li>${subject} <span class="score-badge ${getScoreClass(subjectPerformance[subject].averageScore)}">${subjectPerformance[subject].averageScore}%</span></li>`;
+                });
+            } else {
+                content += '<li>Not enough data</li>';
+            }
+            
+            content += '</ul></div>';
+            
+            // Add weaknesses
+            content += '<div class="weaknesses">';
+            content += '<h4><i class="fas fa-arrow-down"></i> Areas for Improvement</h4>';
+            content += '<ul>';
+            
+            if (weaknesses.length > 0) {
+                weaknesses.forEach(subject => {
+                    content += `<li>${subject} <span class="score-badge ${getScoreClass(subjectPerformance[subject].averageScore)}">${subjectPerformance[subject].averageScore}%</span></li>`;
+                });
+            } else {
+                content += '<li>Not enough data</li>';
+            }
+            
+            content += '</ul></div>';
+            content += '</div>';
+            
+            strengthsElement.innerHTML = content;
+        }
+        
+        // Get CSS class for score
+        function getScoreClass(score) {
+            if (score >= 90) return 'score-excellent';
+            if (score >= 75) return 'score-good';
+            if (score >= 60) return 'score-average';
+            return 'score-poor';
+        }
+    </script>
+</body>
+</html>

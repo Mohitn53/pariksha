@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .instructions {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download Mohit's Image</h1>
+        
+        <div class="instructions">
+            <p>The image you shared in the conversation needs to be saved to your computer. Follow these steps:</p>
+            <ol style="text-align: left;">
+                <li>Right-click on the image below</li>
+                <li>Select "Save image as..."</li>
+                <li>Navigate to your project folder: <code>C:\Users\Mohit\11\Pariksha\img\team\</code></li>
+                <li>Save the file as <code>mohit-nirmal.jpg</code></li>
+            </ol>
+        </div>
+        
+        <p>Once you've saved the image to the correct location, the website will display your profile image correctly.</p>
+        
+        <h2>Your Image:</h2>
+        <!-- The image URL below will be the same one from the conversation -->
+        <img id="profileImage" src="https://placeholder.com/400x600" alt="Mohit Nirmal">
+        
+        <p><small>Note: This is just a helper page and not part of your actual website.</small></p>
+        
+        <button onclick="window.location.href='Pariksha Home Page.html'">Return to Home Page</button>
+    </div>
+    
+    <script>
+        // This script will help users check if they saved the image correctly
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if the image file exists (this won't actually work due to browser security)
+            // But it's here for demonstration purposes
+            const img = new Image();
+            img.onload = function() {
+                console.log('Image exists!');
+            };
+            img.onerror = function() {
+                console.log('Image does not exist yet');
+            };
+            img.src = '../img/team/mohit-nirmal.jpg?t=' + new Date().getTime();
+        });
+    </script>
+</body>
+</html> 

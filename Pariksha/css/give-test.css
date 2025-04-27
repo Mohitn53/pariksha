@@ -1,0 +1,252 @@
+@import 'Pariksha Home Page.css';
+
+/* Sidebar specific styles */
+.test-content-wrapper {
+    display: flex;    
+}
+
+.test-sidebar {
+    min-width: 20vw;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    padding: 25px;
+    height: 89vh;
+    position: sticky;
+    top: 11vh;
+}
+
+.test-sidebar h3 {
+    font-size: 1.2rem;
+    color: var(--dark-text);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.test-sidebar-nav {
+    list-style: none;
+}
+
+.test-sidebar-nav li {
+    margin-bottom: 10px;
+}
+
+.test-sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 6px;
+    color: var(--text-color);
+    transition: all var(--transition-speed);
+}
+
+.test-sidebar-nav a i {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+
+.test-sidebar-nav a:hover, .test-sidebar-nav a.active {
+    background-color: var(--dropdown-hover);
+    color: var(--primary-color);
+}
+
+.test-main-content {
+    flex: 1;
+    padding: 1.5%;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .test-content-wrapper {
+        flex-direction: column;
+    }
+    
+    .test-sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 30px;
+    }
+    
+    .test-sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .test-sidebar-nav li {
+        margin-bottom: 0;
+    }
+}
+
+/* Give Test Page Styles */
+.test-list-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h2 {
+    font-size: 2rem;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    color: var(--text-color);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-left: 45px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.filter-options {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-options select {
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.test-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-speed), background-color 0.3s ease;
+}
+
+.test-card:hover {
+    transform: translateY(-5px);
+}
+
+.test-card-header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 15px 20px;
+}
+
+.test-card-header h3 {
+    margin-bottom: 5px;
+}
+
+.test-card-header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.test-card-body {
+    padding: 20px;
+}
+
+.test-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-weight: 500;
+}
+
+.test-description {
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.test-card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.difficulty {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.easy {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+}
+
+.medium {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--warning-color);
+}
+
+.hard {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+}

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Test - PARIKSHA</title>
+    <!-- Load navbar CSS before other stylesheets -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/give-test.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>PARIKSHA</h1>            
+        </div>        
+        <nav>
+            <ul>
+                <li><a href="Pariksha Home Page.html">Home</a></li>
+                <li class="dropdown">
+                    <a>Tests <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="give-test.html">Give Test</a></li>
+                        <li><a href="create-test.html" class="active">Create Test</a></li>
+                        <li><a href="generate-test.html">Generate Test</a></li>
+                    </ul>
+                </li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+
+                <div class="profile-menu">
+                    <div class="profile-group">
+                        <button id="profile-btn" aria-label="Profile menu">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <i class="fas fa-chevron-down down-arrow"></i>
+                    </div>                    
+                    <div class="profile-dropdown">
+                        <ul>
+                            <!-- This will be dynamically populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </ul>            
+        </nav>        
+    </header>
+
+    <main class="create-test-container">
+        <!-- Sidebar Navigation -->
+        <aside class="test-sidebar">
+            <h3>Test Navigation</h3>
+            <ul class="test-sidebar-nav">
+                <li><a href="#available-tests" class="active"><i class="fas fa-list-ul"></i> Available Tests</a></li>
+                <li><a href="#history"><i class="fas fa-history"></i> History</a></li>
+                <li><a href="#access-code"><i class="fas fa-key"></i> Access Code</a></li>
+            </ul>
+        </aside>
+
+        <div>
+            <div class="page-header">
+                <h2>Create Your Own Test</h2>
+                <p>Design a custom test with your own questions and share it with others.</p>
+            </div>
+    
+            <div class="form-container">
+                <form id="create-test-form">
+                    <div class="form-group">
+                        <label for="test-title">Test Title</label>
+                        <input type="text" class="form-control" id="test-title" name="test-title" placeholder="Enter test title" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="test-description">Test Description</label>
+                        <textarea class="form-control" id="test-description" name="test-description" rows="3" placeholder="Provide a brief description of the test"></textarea>
+                    </div>
+    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select class="form-control" id="subject" name="subject" required>
+                                <option value="" disabled selected>Select a subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="english">English</option>
+                                <option value="history">History</option>
+                                <option value="computer">Computer Science</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="difficulty">Difficulty Level</label>
+                            <select class="form-control" id="difficulty" name="difficulty" required>
+                                <option value="" disabled selected>Select difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="time-limit">Time Limit (minutes)</label>
+                            <input type="number" class="form-control" id="time-limit" name="time-limit" min="5" max="180" placeholder="Time in minutes" required>
+                        </div>
+                    </div>
+    
+                    <h3>Questions</h3>
+                    <div id="questions-container">
+                        <!-- Initial question - added directly in HTML -->
+                        <div class="question-block">
+                            <div class="question-header">
+                                <span class="question-number">Question 1</span>
+                                <button type="button" class="btn-remove" onclick="this.parentElement.parentElement.remove()">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label>Question Text</label>
+                                <textarea class="form-control" name="question1" required></textarea>
+                            </div>
+                            <div class="option-group">
+                                <div class="option-row">
+                                    <div class="option-letter">A</div>
+                                    <div class="option-input">
+                                        <input type="text" class="form-control" name="option1A" required>
+                                    </div>
+                                </div>
+                                <div class="option-row">
+                                    <div class="option-letter">B</div>
+                                    <div class="option-input">
+                                        <input type="text" class="form-control" name="option1B" required>
+                                    </div>
+                                </div>
+                                <div class="option-row">
+                                    <div class="option-letter">C</div>
+                                    <div class="option-input">
+                                        <input type="text" class="form-control" name="option1C" required>
+                                    </div>
+                                </div>
+                                <div class="option-row">
+                                    <div class="option-letter">D</div>
+                                    <div class="option-input">
+                                        <input type="text" class="form-control" name="option1D" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Correct Answer</label>
+                                <select class="form-control" name="correct1" required>
+                                    <option value="">Select correct answer</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <button type="button" id="add-question" class="btn-add">
+                        <i class="fas fa-plus"></i> Add Another Question
+                    </button>
+    
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary" id="preview-test">Preview Test</button>
+                        <button type="submit" class="btn primary">Create Test</button>
+                    </div>
+                </form>
+            </div>
+        </div>        
+    </main>    
+
+    <script src="js/main.js"></script>
+    <script>
+        // Check authentication state when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Checking auth state on create-test page...');
+            // If getCurrentUser function is available from auth.js
+            if (typeof getCurrentUser === 'function') {
+                const currentUser = getCurrentUser();
+                if (currentUser) {
+                    console.log('User is logged in:', currentUser);
+                    // Update UI elements for logged in state
+                    updateUIForLoggedInUser(currentUser);
+                } else {
+                    console.log('No user logged in');
+                    // Update UI elements for logged out state
+                    updateUIForLoggedOutUser();
+                }
+            } else {
+                console.error('Auth functions not available');
+            }
+            
+            // No need to add first question automatically - it's already in the HTML
+            // document.getElementById('add-question').click();
+            
+            // Debug the existing question elements
+            const questionBlocks = document.querySelectorAll('.question-block');
+            console.log('Initial question blocks:', questionBlocks);
+            questionBlocks.forEach((block, index) => {
+                console.log(`Initial Question ${index + 1}:`, block);
+                console.log('Textarea:', block.querySelector('textarea'));
+                console.log('Input boxes:', block.querySelectorAll('input[type="text"]'));
+                console.log('Select box:', block.querySelector('select'));
+            });
+        });
+
+        document.getElementById('create-test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const testData = {
+                title: document.getElementById('test-title').value,
+                description: document.getElementById('test-description').value,
+                subject: document.getElementById('subject').value,
+                difficulty: document.getElementById('difficulty').value,
+                timeLimit: document.getElementById('time-limit').value,
+                questions: [] // Will collect questions from the form
+            };
+
+            // Collect questions from the form
+            const questionBlocks = document.querySelectorAll('.question-block');
+            console.log('Form submission - found question blocks:', questionBlocks.length);
+            
+            if (questionBlocks.length === 0) {
+                alert('Please add at least one question to your test.');
+                return;
+            }
+            
+            // Process each question block
+            questionBlocks.forEach((block, index) => {
+                try {
+                    // Get all form elements by traversing the DOM structure
+                    const questionText = block.querySelector('textarea')?.value || '';
+                    
+                    // Get all input elements
+                    const inputElements = Array.from(block.querySelectorAll('.option-input input'));
+                    console.log(`Question ${index + 1} inputs:`, inputElements);
+                    
+                    // Get select element
+                    const selectElement = block.querySelector('select');
+                    
+                    // Create the question data
+                    const question = {
+                        question: questionText || `Question ${index + 1}`,
+                        optionA: (inputElements[0]?.value) || "Option A",
+                        optionB: (inputElements[1]?.value) || "Option B",
+                        optionC: (inputElements[2]?.value) || "Option C",
+                        optionD: (inputElements[3]?.value) || "Option D",
+                        correct: (selectElement?.value) || "A"
+                    };
+                    
+                    console.log(`Processed question ${index + 1}:`, question);
+                    testData.questions.push(question);
+                    
+                } catch (error) {
+                    console.error(`Error processing question ${index + 1}:`, error);
+                }
+            });
+            
+            if (testData.questions.length === 0) {
+                alert('No valid questions were found. Please add at least one complete question.');
+                return;
+            }
+            
+            console.log('Final test data:', testData);
+
+            // Store test data in sessionStorage
+            sessionStorage.setItem('currentTest', JSON.stringify(testData));
+            
+            // Redirect to test page
+            window.location.href = 'test-page.html';
+        });
+
+        // Add question functionality
+        document.getElementById('add-question').addEventListener('click', function() {
+            const questionsContainer = document.getElementById('questions-container');
+            const questionCount = questionsContainer.children.length + 1;
+            console.log(`Adding new question #${questionCount}`);
+
+            const questionHtml = `
+                <div class="question-block">
+                    <div class="question-header">
+                        <span class="question-number">Question ${questionCount}</span>
+                        <button type="button" class="btn-remove" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label>Question Text</label>
+                        <textarea class="form-control" name="question${questionCount}" required></textarea>
+                    </div>
+                    <div class="option-group">
+                        <div class="option-row">
+                            <div class="option-letter">A</div>
+                            <div class="option-input">
+                                <input type="text" class="form-control" name="option${questionCount}A" required>
+                            </div>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-letter">B</div>
+                            <div class="option-input">
+                                <input type="text" class="form-control" name="option${questionCount}B" required>
+                            </div>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-letter">C</div>
+                            <div class="option-input">
+                                <input type="text" class="form-control" name="option${questionCount}C" required>
+                            </div>
+                        </div>
+                        <div class="option-row">
+                            <div class="option-letter">D</div>
+                            <div class="option-input">
+                                <input type="text" class="form-control" name="option${questionCount}D" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Correct Answer</label>
+                        <select class="form-control" name="correct${questionCount}" required>
+                            <option value="">Select correct answer</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
+            
+            // Get the newly added question block
+            const newQuestionBlock = questionsContainer.lastElementChild;
+            
+            // Verify elements were created correctly
+            const textarea = newQuestionBlock.querySelector('textarea');
+            const inputs = newQuestionBlock.querySelectorAll('.option-input input');
+            const select = newQuestionBlock.querySelector('select');
+            
+            console.log(`Question ${questionCount} added with elements:`, {
+                block: newQuestionBlock,
+                textarea,
+                inputs: Array.from(inputs),
+                select
+            });
+            
+            // Add data attributes to make finding elements more reliable
+            textarea.setAttribute('data-question-id', questionCount);
+            inputs.forEach((input, idx) => {
+                input.setAttribute('data-option-id', ['A', 'B', 'C', 'D'][idx]);
+            });
+            select.setAttribute('data-question-id', questionCount);
+        });
+    </script>
+</body>
+</html> 

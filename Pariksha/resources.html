@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Resources</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Load navbar CSS before other stylesheets to ensure it takes precedence -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="resource.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <h1>PARIKSHA</h1>            
+    </div>        
+    <nav>
+        <ul>
+            <li><a href="Pariksha Home Page.html">Home</a></li>
+            <li class="dropdown">
+                <a>Tests <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="give-test.html">Give Test</a></li>
+                    <li><a href="create-test.html">Create Test</a></li>
+            
+                </ul>
+            </li>
+            <li><a href="resources.html" class="active">Resources</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+
+            <div class="profile-menu">
+                <div class="profile-group">
+                    <button id="profile-btn" aria-label="Profile menu">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <i class="fas fa-chevron-down down-arrow"></i>
+                </div>
+                <div class="profile-dropdown">
+                    <ul>
+                        <!-- This will be dynamically populated by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </ul>            
+    </nav>        
+</header>
+
+  <main>
+    <section class="subject-block" id="math" data-aos="fade-up">
+      <h2>Mathematics</h2>
+      <p>Explore resources for algebra, calculus, and more.</p>
+      <button onclick="location.href='https://nrich.maths.org/'">View Resources</button>
+    </section>
+
+    <section class="subject-block" id="science" data-aos="fade-up">
+      <h2>Science</h2>
+      <p>Discover materials for physics, chemistry, and biology.</p>
+      <button onclick="location.href='https://phet.colorado.edu/'">View Resources</button>
+    </section>
+
+    <section class="subject-block" id="history" data-aos="fade-up">
+      <h2>History</h2>
+      <p>Learn about world history, ancient civilizations, and more.</p>
+      <button onclick="location.href='https://www.historyskills.com/'">View Resources</button>
+    </section>
+
+    <section class="subject-block" id="literature" data-aos="fade-up">
+      <h2>Literature</h2>
+      <p>Find resources for novels, poetry, and literary analysis.</p>
+      <button onclick="location.href='https://studyliterary.com/'">View Resources</button>
+    </section>
+
+    <section class="subject-block" id="html" data-aos="fade-up">
+        <h2>HTML</h2>
+        <p>Find resources for html.</p>
+        <button onclick="location.href='https://www.w3resource.com/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="css" data-aos="fade-up">
+        <h2>CSS</h2>
+        <p>Find resources for css.</p>
+        <button onclick="location.href='https://cssreference.io/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="JavaScript" data-aos="fade-up">
+        <h2>JavaScript</h2>
+        <p>Find resources for javascript.</p>
+        <button onclick="location.href='https://www.w3resource.com/javascript-exercises/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="c" data-aos="fade-up">
+        <h2>C</h2>
+        <p>Find resources for c.</p>
+        <button onclick="location.href='https://www.w3resource.com/c-programming-exercises/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="c++" data-aos="fade-up">
+        <h2>C++</h2>
+        <p>Find resources for c++.</p>
+        <button onclick="location.href='https://www.w3resource.com/cpp-exercises/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="python" data-aos="fade-up">
+        <h2>Python</h2>
+        <p>Find resources for python language.</p>
+        <button onclick="location.href='https://www.learnpython.org/'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="dsa" data-aos="fade-up">
+        <h2>DSA</h2>
+        <p>Find resources for Data structure an algorithms.</p>
+        <button onclick="location.href='https://www.codechef.com/roadmap/data-structures-and-algorithms'">View Resources</button>
+      </section>
+
+      <section class="subject-block" id="MERN" data-aos="fade-up">
+        <h2>MERN</h2>
+        <p>find resources for mern stack.</p>
+        <button onclick="location.href='https://www.mongodb.com/resources/languages/mern-stack-tutorial'">View Resources</button>
+      </section>      
+  </main>  
+
+  <script src="js/main.js"></script>
+
+  <!-- JavaScript -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init();
+    
+    // Check authentication state when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Checking auth state on resources page...');
+        // If getCurrentUser function is available from auth.js
+        if (typeof getCurrentUser === 'function') {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                console.log('User is logged in:', currentUser);
+                // Update UI elements for logged in state
+                updateUIForLoggedInUser(currentUser);
+            } else {
+                console.log('No user logged in');
+                // Update UI elements for logged out state
+                updateUIForLoggedOutUser();
+            }
+        } else {
+            console.error('Auth functions not available');
+        }
+    });
+</script>
+</body>
+</html>
